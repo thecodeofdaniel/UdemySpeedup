@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link href="./output.css" rel="stylesheet" />
+  </head>
+  <body class="border-2 border-white bg-stone-900 p-4">
+    <header class="flex items-center gap-2">
+      <img src="../icons/logo-64.png" alt="Logo" class="h-7" />
+      <h1 class="text-xl font-bold">Udemy Speedup</h1>
+    </header>
+    <main class="mt-2 flex gap-2">
+      <div>
+        <input
+          id="speedRangeInput"
+          type="range"
+          step="0.25"
+          class="h-2 cursor-pointer rounded-lg accent-[#A435F0]"
+        />
+        <p class="flex justify-between text-xs">
+          <span>0.5x</span>
+          <span>4x</span>
+        </p>
+      </div>
+      <input
+        id="speedTextInput"
+        type="text"
+        class="remove-arrow h-6 w-14 rounded-lg bg-stone-800 p-2 text-center placeholder:text-stone-400 focus:outline-none"
+      />
+    </main>
+    <script src="./popup.js"></script>
+  </body>
+</html>

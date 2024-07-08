@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "Udemy Speedup",
+  "version": "1.0.0",
+  "description": "Change video playback speed in Udemy",
+  "icons": {
+    "64": "icons/logo-64.png"
+  },
+  "browser_action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "64": "icons/logo-64.png"
+    }
+  },
+  "background": {
+    "scripts": ["background/background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.udemy.com/*"],
+      "js": ["content_scripts/content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "permissions": ["tabs", "activeTab", "storage", "management"]
+}
