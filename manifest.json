@@ -13,14 +13,26 @@
     }
   },
   "background": {
-    "scripts": ["background/background.js"]
+    "scripts": ["constants.js", "background/background.js"]
   },
   "content_scripts": [
     {
       "matches": ["*://*.udemy.com/*"],
-      "js": ["content_scripts/content.js"],
+      "js": [
+        "constants.js",
+        "content_scripts/1_shared.js",
+        "content_scripts/2_content.js",
+        "content_scripts/3_update.js",
+        "content_scripts/4_shortcuts.js"
+      ],
       "run_at": "document_end"
     }
   ],
-  "permissions": ["tabs", "activeTab", "storage", "management"]
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage",
+    "management",
+    "*://*.udemy.com/*"
+  ]
 }

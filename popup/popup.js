@@ -1,23 +1,26 @@
 // What's this do?: It displays the video playback and sends that over to
 //                  content_scripts, in this case, content.js.
 
-const VIDEO_SPEED_KEY = 'videoSpeed';
-const MIN_SPEED = 0.5;
-const MAX_SPEED = 4;
-
 const speedRangeInputElem = document.getElementById('speedRangeInput');
 const speedTextInputElem = document.getElementById('speedTextInput');
+const startSpeedElem = document.getElementById('start-speed');
+const endSpeedElem = document.getElementById('end-speed');
 
 speedRangeInputElem.min = MIN_SPEED;
 speedRangeInputElem.max = MAX_SPEED;
+startSpeedElem.textContent = `${MIN_SPEED}x`;
+endSpeedElem.textContent = `${MAX_SPEED}x`;
 
 // Gets videoSpeed from localStorage
 function getVideoSpeed() {
-  if (!localStorage.getItem(VIDEO_SPEED_KEY)) {
-    localStorage.setItem(VIDEO_SPEED_KEY, '1');
+  let videoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;
+
+  if (!videoSpeed) {
+    videoSpeed = '1';
+    localStorage.setItem(VIDEO_SPEED_KEY, videoSpeed);
   }
 
-  return localStorage.getItem(VIDEO_SPEED_KEY);
+  return videoSpeed;
 }
 
 // Grab previous speed and display to GUI popup
@@ -86,10 +89,31 @@ speedRangeInputElem.addEventListener('input', () => {
   sendVideoSpeed(value);
 });
 
-// Sends videoSpeed to content_script "content.js"
-function sendVideoSpeed(speed) {
-  browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
-    let activeTab = tabs[0];
-    browser.tabs.sendMessage(activeTab.id, { videoSpeed: `${speed}` });
-  });
+// Sends new videoSpeed to content_scripts
+function sendVideoSpeed(speed, newSpeedSet = true) {
+  return browser.tabs
+    .query({ active: true, currentWindow: true })
+    .then((tabs) => {
+      let activeTab = tabs[0];
+      return browser.tabs.sendMessage(activeTab.id, {
+        videoSpeed: `${speed}`,
+        newSpeedSet: newSpeedSet,
+      });
+    });
 }
+
+// Sends videoSpeed to content_scripts when user opens up extension and expects
+// a response back
+sendVideoSpeed(getVideoSpeed(), false)
+  .then((response) => {
+    // console.log('Response from content script:', response);
+
+    if (response.speed) {
+      const videoSpeed = response.speed;
+      speedRangeInputElem.value = videoSpeed;
+      speedTextInputElem.value = `${videoSpeed}x`;
+    }
+  })
+  .catch((error) => {
+    console.error('Error sending message:', error);
+  });

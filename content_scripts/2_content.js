@@ -4,36 +4,36 @@
 // NOTE: To view the console you need to visit about:debugging. Navigate to the
 //       extension and click on "Inspect".
 
-const VIDEO_SPEED_KEY = 'videoSpeed';
-const SIDEBAR_SELECTOR = 'div[data-purpose=sidebar-content]';
-// const CURRENT_VIDEO_SELECTOR = 'li[aria-current="true"]';
+// Listen for messages from popup
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  // Check if videoSpeed from localStorage exists
+  let videoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;
 
-let video;
-let sidebarElement;
-
-// Listen for messages from popup extension to change the playback rate
-browser.runtime.onMessage.addListener((message) => {
-  if (!message || !message.videoSpeed) {
+  // Tell popup to use localStorage's speed for reference
+  if (videoSpeed && !message.newSpeedSet) {
+    sendResponse({ speed: videoSpeed });
     return;
   }
 
-  const videoSpeed = message.videoSpeed;
+  // Otherwise accept new videoSpeed from popup
+  videoSpeed = message.videoSpeed;
 
-  localStorage.setItem(VIDEO_SPEED_KEY, videoSpeed);
-  video.playbackRate = +videoSpeed;
+  if (videoElem && playBackTextElem) {
+    videoElem.playbackRate = +videoSpeed;
+    localStorage.setItem(VIDEO_SPEED_KEY, videoSpeed);
+    playBackTextElem.textContent = `${videoSpeed}x`;
+  }
+
+  sendResponse({ speed: null });
 });
-
-// Sleeper function that returns a promise
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 // Sets user's playback speed to current video
 function setPlayback() {
   const apply = () => {
     const videoSpeed = localStorage.getItem(VIDEO_SPEED_KEY);
+
     if (videoSpeed) {
-      video.playbackRate = +videoSpeed;
+      videoElem.playbackRate = +videoSpeed;
     }
   };
 
@@ -41,27 +41,20 @@ function setPlayback() {
   apply();
 
   // Add event listeners to ensure playback rate persists
-  video.addEventListener('play', apply);
-  video.addEventListener('loadedmetadata', apply);
-  video.addEventListener('ratechange', apply);
+  videoElem.addEventListener('play', apply);
+  videoElem.addEventListener('loadedmetadata', apply);
+  videoElem.addEventListener('ratechange', apply);
 }
 
 // Waits for video to render and runs "setPlayback" function
 async function applyPlaybackToNewVid() {
-  do {
-    await sleep(1000);
-    video = document.querySelector('video');
-  } while (!video);
-
+  videoElem = await waitForElement('video');
   setPlayback();
 }
 
 // Watch and detects if new video is selected
 async function watchForNewVid() {
-  do {
-    await sleep(1000);
-    sidebarElement = document.querySelector(SIDEBAR_SELECTOR);
-  } while (!sidebarElement);
+  sidebarElem = await waitForElement(SIDEBAR_SELECTOR);
 
   const attributeName = 'aria-current';
 
@@ -73,8 +66,10 @@ async function watchForNewVid() {
       ) {
         const target = mutation.target;
         if (target.getAttribute(attributeName) === 'true') {
-          video = null;
+          videoElem = null;
+          playBackTextElem = null;
           applyPlaybackToNewVid();
+          changePlaybackText();
         }
       }
     }
@@ -83,7 +78,7 @@ async function watchForNewVid() {
   const observer = new MutationObserver(onAttributesChanged);
 
   // Start observing the target node for configured mutations
-  observer.observe(sidebarElement, {
+  observer.observe(sidebarElem, {
     attributes: true,
     subtree: true,
     attributeFilter: [attributeName],
