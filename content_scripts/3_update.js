@@ -2,7 +2,17 @@
 //                  text between the "rewind" and "foward" 5 seconds buttons
 
 async function changePlaybackText() {
-  playBackTextElem = await waitForElement(PLAYBACK_TEXT_SELECTOR, 500);
+  if (!playBackTextElem) {
+    playBackTextElem = await waitForElement(
+      'playbackTextElem',
+      PLAYBACK_TEXT_SELECTOR,
+      500,
+    );
+
+    if (!playBackTextElem) {
+      return;
+    }
+  }
 
   const videoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;
 

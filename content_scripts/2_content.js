@@ -20,16 +20,17 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   if (videoElem && playBackTextElem) {
     videoElem.playbackRate = +videoSpeed;
-    localStorage.setItem(VIDEO_SPEED_KEY, videoSpeed);
     playBackTextElem.textContent = `${videoSpeed}x`;
   }
 
+  localStorage.setItem(VIDEO_SPEED_KEY, videoSpeed);
   sendResponse({ speed: null });
 });
 
 // Sets user's playback speed to current video
 async function setPlayback() {
-  videoElem = await waitForElement('video');
+  videoElem = await waitForElement('videoElem', 'video');
+  if (!videoElem) return;
 
   const apply = () => {
     const videoSpeed = localStorage.getItem(VIDEO_SPEED_KEY);
@@ -50,7 +51,7 @@ async function setPlayback() {
 
 // Watch and detects if new video is selected
 async function watchForNewVid() {
-  sidebarElem = await waitForElement(SIDEBAR_SELECTOR);
+  sidebarElem = await waitForElement('sidebarElem', SIDEBAR_SELECTOR);
 
   const attributeName = 'aria-current';
 
