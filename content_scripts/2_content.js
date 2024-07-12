@@ -1,5 +1,5 @@
-// What's this do?: This sets the video playback based on the popup's
-//                  playback value
+// What's this do?: This sets the video playback based on localStorage and gets
+//                  playback rate changes from popup
 
 // NOTE: To view the console you need to visit about:debugging. Navigate to the
 //       extension and click on "Inspect".
@@ -28,7 +28,9 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 // Sets user's playback speed to current video
-function setPlayback() {
+async function setPlayback() {
+  videoElem = await waitForElement('video');
+
   const apply = () => {
     const videoSpeed = localStorage.getItem(VIDEO_SPEED_KEY);
 
@@ -46,12 +48,6 @@ function setPlayback() {
   videoElem.addEventListener('ratechange', apply);
 }
 
-// Waits for video to render and runs "setPlayback" function
-async function applyPlaybackToNewVid() {
-  videoElem = await waitForElement('video');
-  setPlayback();
-}
-
 // Watch and detects if new video is selected
 async function watchForNewVid() {
   sidebarElem = await waitForElement(SIDEBAR_SELECTOR);
@@ -67,9 +63,9 @@ async function watchForNewVid() {
         const target = mutation.target;
         if (target.getAttribute(attributeName) === 'true') {
           videoElem = null;
-          playBackTextElem = null;
-          applyPlaybackToNewVid();
-          changePlaybackText();
+          playBackTextElem = null; // this resets playbackTextElem
+          setPlayback();
+          changePlaybackText(); // this function is inside "3_update.js"
         }
       }
     }
@@ -85,5 +81,5 @@ async function watchForNewVid() {
   });
 }
 
-applyPlaybackToNewVid();
+setPlayback();
 watchForNewVid();
