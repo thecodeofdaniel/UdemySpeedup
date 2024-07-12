@@ -2,6 +2,8 @@
 
 ![UdemySpeedup Extension](./imgs/extension.png)
 
+Get the add-on [here!](https://addons.mozilla.org/en-US/firefox/addon/udemy-speedup/)
+
 This extension adds playback rates to Udemy videos. Ranging from 0.5x to 4x speed.
 The user can either use the range input or the text input for finer control if they so choose. They can also use the `[` and `]` keys to quickly change playback by 0.25 speed.
 
