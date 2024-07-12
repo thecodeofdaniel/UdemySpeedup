@@ -27,10 +27,12 @@ function waitForElement(elemName = elem, selector, checkEveryMs = 1000) {
       const element = document.querySelector(selector);
       if (element) {
         const timeItTook = Date.now() - startTime;
-        console.log(`It took ${timeItTook}ms to find ${elemName}`);
+        // console.log(
+        //   `It took ${timeItTook}ms to find ${elemName} (${selector})`,
+        // );
         resolve(element);
       } else if (Date.now() - startTime >= timeoutMs) {
-        console.log(`${elemName} was not found`);
+        // console.log(`${elemName} (${selector}) was not found`);
         resolve(null);
       } else {
         // console.log(`${elemName} is still waiting...`);
