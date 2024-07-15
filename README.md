@@ -31,10 +31,16 @@ web-ext run
 
 ### Styling
 
-I'm using tailwindcss to style my extension, so we'll need to generate the css. This will take the `input.css` and generates the `output.css`. Run the following command in the root project.
+I'm using tailwindcss to style my extension, so we'll need to generate the css. This will take the `input.css` and generates the `output.css`. Run the following command in the root project to generate the css once.
 
 ```bash
-npm run tailwind
+npm run build:css
+```
+
+If you want to make and watch your changes.
+
+```bash
+npm run watch:css
 ```
 
 ## Layout
