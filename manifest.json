@@ -17,7 +17,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.udemy.com/*"],
+      "matches": ["https://www.udemy.com/course/*/learn/*"],
       "js": [
         "constants.js",
         "content_scripts/1_shared.js",
@@ -33,6 +33,6 @@
     "activeTab",
     "storage",
     "management",
-    "*://*.udemy.com/*"
+    "https://www.udemy.com/course/*/learn/*"
   ]
 }

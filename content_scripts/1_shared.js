@@ -35,10 +35,10 @@ function waitForElement(elemName = 'elem', selector, checkEveryMs = 1000) {
 }
 
 /**
- * Checks if THIS script should be run
+ * Checks if current URL is on video lecture
  *
  * @returns {boolean}
  */
-function isOnURL() {
-  return UDEMY_URL_PATTERN.test(window.location.href);
+function isOnVideo() {
+  return UDEMY_VIDEO_URL_PATTERN.test(window.location.href);
 }

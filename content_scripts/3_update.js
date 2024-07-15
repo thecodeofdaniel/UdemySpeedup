@@ -21,6 +21,6 @@ async function changePlaybackText() {
   }
 }
 
-if (isOnURL()) {
+if (isOnVideo()) {
   changePlaybackText();
 }

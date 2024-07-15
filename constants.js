@@ -7,5 +7,5 @@ const MAX_SPEED = 4;
 // https://www.udemy.com/course/<foo>/learn/lecture/<bar>
 // foo = name of the course
 // bar = is the id of the lecture
-const UDEMY_URL_PATTERN =
+const UDEMY_VIDEO_URL_PATTERN =
   /^https:\/\/www\.udemy\.com\/course\/[^\/]+\/learn\/lecture\/[^\/]+$/;

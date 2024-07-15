@@ -66,7 +66,7 @@ async function watchForNewVid() {
           videoElem = null;
           playBackTextElem = null; // this resets playbackTextElem
 
-          if (isOnURL()) {
+          if (isOnVideo()) {
             setPlayback();
             changePlaybackText(); // this function is inside "3_update.js"
           }
@@ -85,7 +85,7 @@ async function watchForNewVid() {
   });
 }
 
-if (isOnURL()) {
+if (isOnVideo()) {
   setPlayback();
 }
 

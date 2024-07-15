@@ -21,7 +21,7 @@ function logCurrentTabUrl() {
 
       if (tabs.length > 0 && tabUrl) {
         // Check if the URL matches pattern
-        if (UDEMY_URL_PATTERN.test(tabUrl)) {
+        if (UDEMY_VIDEO_URL_PATTERN.test(tabUrl)) {
           // Enable extension features for this site
           browser.browserAction.enable(tabId);
         } else {
@@ -50,7 +50,7 @@ browser.tabs.onActivated.addListener((activeInfo) => {
   browser.tabs
     .get(tabId)
     .then((tab) => {
-      if (UDEMY_URL_PATTERN.test(tab.url)) {
+      if (UDEMY_VIDEO_URL_PATTERN.test(tab.url)) {
         browser.tabs
           .executeScript(tabId, {
             file: CONTENT_SCRIPT_PATH,
