@@ -16,7 +16,7 @@ function getVideoSpeed() {
   let videoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;
 
   if (!videoSpeed) {
-    videoSpeed = '1';
+    videoSpeed = DEFAULT_SPEED.toString();
     localStorage.setItem(VIDEO_SPEED_KEY, videoSpeed);
   }
 

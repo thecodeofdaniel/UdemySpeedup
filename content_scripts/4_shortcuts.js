@@ -9,7 +9,7 @@ document.addEventListener('keydown', (event) => {
     return;
   }
 
-  let videoSpeed = +localStorage.getItem(VIDEO_SPEED_KEY) || null;
+  let videoSpeed = +localStorage.getItem(VIDEO_SPEED_KEY) || DEFAULT_SPEED;
 
   if (videoSpeed) {
     if (event.key === '[') {
