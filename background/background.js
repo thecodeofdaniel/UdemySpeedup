@@ -5,19 +5,34 @@
 // NOTE: To view the console you need to visit about:debugging. Navigate to the
 //       extension and click on "Inspect".
 
-// Enable or disable extension depending if they're on the correct URL
+// This will activate the extension if it matches the following
+// https://www.udemy.com/course/<foo>/learn/lecture/<bar>
+// Where foo is the name of the course. And bar is the id of the lecture
+const UDEMY_URL_PATTERN =
+  /^https:\/\/www\.udemy\.com\/course\/[^\/]+\/learn\/lecture\/[^\/]+$/;
+
+// Declare path to content script
+const CONTENT_SCRIPT_PATH = '/content_scripts/3_update.js';
+
+/**
+ * Checks if extension should be enabled or not
+ * @returns {void}
+ */
 function logCurrentTabUrl() {
   browser.tabs
     .query({ active: true, currentWindow: true })
     .then((tabs) => {
-      if (tabs.length > 0 && tabs[0].url) {
-        // Check if the URL starts with a specific string
-        if (tabs[0].url.startsWith(UDEMY_URL)) {
+      const tabUrl = tabs[0].url;
+      const tabId = tabs[0].id;
+
+      if (tabs.length > 0 && tabUrl) {
+        // Check if the URL matches pattern
+        if (UDEMY_URL_PATTERN.test(tabUrl)) {
           // Enable extension features for this site
-          browser.browserAction.enable(tabs[0].id);
+          browser.browserAction.enable(tabId);
         } else {
           // Disable extension features for other sites
-          browser.browserAction.disable(tabs[0].id);
+          browser.browserAction.disable(tabId);
         }
       }
     })
@@ -33,24 +48,22 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   }
 });
 
-// Function to execute the content script in a given tab
-function executeContentScript(tabId) {
-  browser.tabs
-    .executeScript(tabId, { file: '/content_scripts/3_update.js' })
-    .catch((error) =>
-      console.error(`Failed to execute content script: ${error}`),
-    );
-}
-
 // Listen for tab activations and update extension state and execute script
 browser.tabs.onActivated.addListener((activeInfo) => {
   logCurrentTabUrl();
+  const tabId = activeInfo.tabId;
 
   browser.tabs
-    .get(activeInfo.tabId)
+    .get(tabId)
     .then((tab) => {
-      if (tab.url.includes(UDEMY_URL)) {
-        executeContentScript(activeInfo.tabId);
+      if (UDEMY_URL_PATTERN.test(tab.url)) {
+        browser.tabs
+          .executeScript(tabId, {
+            file: CONTENT_SCRIPT_PATH,
+          })
+          .catch((error) =>
+            console.error(`Failed to execute content script: ${error}`),
+          );
       }
     })
     .catch((error) => console.error(`Failed to get active tab: ${error}`));
@@ -61,5 +74,5 @@ logCurrentTabUrl();
 
 // Listen for messages from the content script "shortcuts.js"
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  localStorage.setItem('videoSpeed', request.speed);
+  localStorage.setItem(VIDEO_SPEED_KEY, request.speed);
 });
