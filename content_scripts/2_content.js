@@ -49,7 +49,7 @@ async function setPlayback() {
   videoElem.addEventListener('ratechange', apply);
 }
 
-// Watch and detects if new video is selected
+// Watch and detects if new lecture/topic is selected
 async function watchForNewVid() {
   sidebarElem = await waitForElement('sidebarElem', SIDEBAR_SELECTOR);
 
@@ -65,8 +65,11 @@ async function watchForNewVid() {
         if (target.getAttribute(attributeName) === 'true') {
           videoElem = null;
           playBackTextElem = null; // this resets playbackTextElem
-          setPlayback();
-          changePlaybackText(); // this function is inside "3_update.js"
+
+          if (isOnURL()) {
+            setPlayback();
+            changePlaybackText(); // this function is inside "3_update.js"
+          }
         }
       }
     }
@@ -82,5 +85,8 @@ async function watchForNewVid() {
   });
 }
 
-setPlayback();
+if (isOnURL()) {
+  setPlayback();
+}
+
 watchForNewVid();

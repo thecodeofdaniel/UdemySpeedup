@@ -21,4 +21,6 @@ async function changePlaybackText() {
   }
 }
 
-changePlaybackText();
+if (isOnURL()) {
+  changePlaybackText();
+}

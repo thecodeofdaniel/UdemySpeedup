@@ -5,12 +5,6 @@
 // NOTE: To view the console you need to visit about:debugging. Navigate to the
 //       extension and click on "Inspect".
 
-// This will activate the extension if it matches the following
-// https://www.udemy.com/course/<foo>/learn/lecture/<bar>
-// Where foo is the name of the course. And bar is the id of the lecture
-const UDEMY_URL_PATTERN =
-  /^https:\/\/www\.udemy\.com\/course\/[^\/]+\/learn\/lecture\/[^\/]+$/;
-
 // Declare path to content script
 const CONTENT_SCRIPT_PATH = '/content_scripts/3_update.js';
 

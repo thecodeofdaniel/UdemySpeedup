@@ -18,22 +18,13 @@ let playBackTextElem = null;
  * @param {number} checkEveryMs - default is 1000ms
  * @returns {Promise<Element>}
  */
-function waitForElement(elemName = elem, selector, checkEveryMs = 1000) {
+function waitForElement(elemName = 'elem', selector, checkEveryMs = 1000) {
   return new Promise((resolve) => {
-    const startTime = Date.now();
-    const timeoutMs = checkEveryMs * 10;
-
     const checkElement = () => {
       const element = document.querySelector(selector);
       if (element) {
-        const timeItTook = Date.now() - startTime;
-        // console.log(
-        //   `It took ${timeItTook}ms to find ${elemName} (${selector})`,
-        // );
+        // console.log(`${elemName} is found!`);
         resolve(element);
-      } else if (Date.now() - startTime >= timeoutMs) {
-        // console.log(`${elemName} (${selector}) was not found`);
-        resolve(null);
       } else {
         // console.log(`${elemName} is still waiting...`);
         setTimeout(checkElement, checkEveryMs);
@@ -41,4 +32,13 @@ function waitForElement(elemName = elem, selector, checkEveryMs = 1000) {
     };
     checkElement();
   });
+}
+
+/**
+ * Checks if THIS script should be run
+ *
+ * @returns {boolean}
+ */
+function isOnURL() {
+  return UDEMY_URL_PATTERN.test(window.location.href);
 }
