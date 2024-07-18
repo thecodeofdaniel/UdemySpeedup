@@ -30,7 +30,6 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 // Sets user's playback speed to current video
 async function setPlayback() {
   videoElem = await waitForElement('videoElem', 'video');
-  if (!videoElem) return;
 
   const apply = () => {
     const videoSpeed = localStorage.getItem(VIDEO_SPEED_KEY);
@@ -64,12 +63,11 @@ async function watchForNewVid() {
         const target = mutation.target;
         if (target.getAttribute(attributeName) === 'true') {
           videoElem = null;
-          playBackTextElem = null; // this resets playbackTextElem
+          playBackTextElem = null;
+          nextButtonElem = null;
+          progressBarElem = null;
 
-          if (isOnVideo()) {
-            setPlayback();
-            changePlaybackText(); // this function is inside "3_update.js"
-          }
+          runForNextVideo();
         }
       }
     }
@@ -85,8 +83,61 @@ async function watchForNewVid() {
   });
 }
 
-if (isOnVideo()) {
-  setPlayback();
+async function findNextBtn() {
+  nextButtonElem = await waitForElement('nextButtonElem', NEXT_BUTTON_SELECTOR);
+}
+
+async function watchProgressBar() {
+  progressBarElem = await waitForElement(
+    'progressBarElem',
+    PROGRESS_BAR_SELECTOR,
+  );
+
+  // Create a callback function to execute when mutations are observed
+  const callback = (mutationsList, observer) => {
+    for (let mutation of mutationsList) {
+      if (
+        mutation.type === 'attributes' &&
+        mutation.attributeName === 'aria-valuenow'
+      ) {
+        const currentValue = progressBarElem.getAttribute('aria-valuenow');
+        if (currentValue === '100') {
+          observer.disconnect();
+          nextButtonElem.click();
+
+          videoElem = null;
+          playBackTextElem = null;
+          nextButtonElem = null;
+          progressBarElem = null;
+
+          runForNextVideo();
+        } else {
+          console.log('Value is: ', currentValue);
+        }
+      }
+    }
+  };
+
+  // Create an observer instance linked to the callback function
+  const observer = new MutationObserver(callback);
+
+  // Start observing the target node for attribute changes
+  observer.observe(progressBarElem, { attributes: true });
+}
+
+function runForNextVideo() {
+  if (isOnVideo()) {
+    setPlayback();
+    changePlaybackText();
+    findNextBtn();
+    watchProgressBar();
+  }
 }
 
 watchForNewVid();
+
+if (isOnVideo()) {
+  setPlayback();
+  findNextBtn();
+  watchProgressBar();
+}

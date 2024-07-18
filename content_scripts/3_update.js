@@ -8,10 +8,6 @@ async function changePlaybackText() {
       PLAYBACK_TEXT_SELECTOR,
       500,
     );
-
-    if (!playBackTextElem) {
-      return;
-    }
   }
 
   const videoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;

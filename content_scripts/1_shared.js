@@ -1,5 +1,7 @@
 const SIDEBAR_SELECTOR = 'div[data-purpose=sidebar-content]';
 const PLAYBACK_TEXT_SELECTOR = 'span.ud-focus-visible-target';
+const PROGRESS_BAR_SELECTOR = '.progress-bar--slider--z064U';
+const NEXT_BUTTON_SELECTOR = '#go-to-next-item';
 
 /** @type {Element} */
 let videoElem = null;
@@ -9,6 +11,12 @@ let sidebarElem = null;
 
 /** @type {Element} */
 let playBackTextElem = null;
+
+/** @type {Element} */
+let progressBarElem = null;
+
+/** @type {Element} */
+let nextButtonElem = null;
 
 /**
  * Returns the element in the DOM once it has rendered
@@ -23,10 +31,10 @@ function waitForElement(elemName = 'elem', selector, checkEveryMs = 1000) {
     const checkElement = () => {
       const element = document.querySelector(selector);
       if (element) {
-        // console.log(`${elemName} is found!`);
+        console.log(`${elemName} is found!`);
         resolve(element);
       } else {
-        // console.log(`${elemName} is still waiting...`);
+        console.log(`${elemName} is still waiting...`);
         setTimeout(checkElement, checkEveryMs);
       }
     };
