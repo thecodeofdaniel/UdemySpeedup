@@ -58,4 +58,5 @@ You'll get the structure of the project. Let's run it down.
   - Listens when the user enters a shortcut. Telling the popup.js to correctly reflect the new playback speed.
   - Update the playback text on screen when the user clicks onto a new Udemy tab.
     - It does this by running the content script **5_update_playback_text.js**.
+- The `content_scripts` dir has files to find elements in the DOM. It applys the playback speed and updates the playback text. While also watching the progress bar to determine if a video has finished and if so, skip the "Up next" screen. Each file has a comment at the top explaining its purpose :)
 - The `popup` dir has files to control the look and behaviour of the extension. Sending and receiving messages from content_scripts. The file **2_popup_listener.js** is where the messages are sent.

@@ -3,34 +3,37 @@
 //                  any changes within the extension
 
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  // Check if videoSpeed from localStorage exists
-  let videoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;
   let response = {};
 
-  // Tell popup to use localStorage's speed for reference
-  if (videoSpeed && !message.newSpeedValue) {
-    response.speed = videoSpeed;
-  } else {
-    // Otherwise accept new videoSpeed from popup
-    videoSpeed = message.videoSpeed;
+  let LSvideoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;
+
+  // If video speed is already set on client side
+  if (LSvideoSpeed && !message.newSpeedValue) {
+    response.speed = LSvideoSpeed;
+  }
+  // If video speed is NOT SET on client side or new value is set
+  else if (!LSvideoSpeed || message.newSpeedValue) {
+    const newVideoSpeed = message.videoSpeed;
 
     if (videoElem && playBackTextElem) {
-      videoElem.playbackRate = +videoSpeed;
-      playBackTextElem.textContent = `${videoSpeed}x`;
+      videoElem.playbackRate = +newVideoSpeed;
+      playBackTextElem.textContent = `${newVideoSpeed}x`;
     }
 
-    localStorage.setItem(VIDEO_SPEED_KEY, videoSpeed);
+    localStorage.setItem(VIDEO_SPEED_KEY, newVideoSpeed);
     response.speed = null;
   }
 
   let checkboxValue = localStorage.getItem(SKIP_DELAY_KEY) || null;
 
+  // If checkbox is already set on client side
   if (checkboxValue && !message.newCheckboxValue) {
-    // If localstorage value is found send that to popup
     response.checkboxValue = checkboxValue;
-  } else {
-    checkboxValue = message.checkboxValue;
-    localStorage.setItem(SKIP_DELAY_KEY, checkboxValue);
+  }
+  // If checkbox is NOT SET on client side or new value is set
+  else if (!checkboxValue || message.newCheckboxValue) {
+    const newCheckboxValue = message.checkboxValue;
+    localStorage.setItem(SKIP_DELAY_KEY, newCheckboxValue);
     response.checkboxValue = null;
   }
 
