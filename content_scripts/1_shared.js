@@ -1,13 +1,8 @@
-const SIDEBAR_SELECTOR = 'div[data-purpose=sidebar-content]';
-const PLAYBACK_TEXT_SELECTOR = 'span.ud-focus-visible-target';
-const PROGRESS_BAR_SELECTOR = '.progress-bar--slider--z064U';
-const NEXT_BUTTON_SELECTOR = '#go-to-next-item';
+// What's this do?: These are the elements we'll use and common functions that
+//                  used through out the content scripts
 
 /** @type {Element} */
 let videoElem = null;
-
-/** @type {Element} */
-let sidebarElem = null;
 
 /** @type {Element} */
 let playBackTextElem = null;
@@ -31,10 +26,10 @@ function waitForElement(elemName = 'elem', selector, checkEveryMs = 1000) {
     const checkElement = () => {
       const element = document.querySelector(selector);
       if (element) {
-        console.log(`${elemName} is found!`);
+        // console.log(`${elemName} is found!`);
         resolve(element);
       } else {
-        console.log(`${elemName} is still waiting...`);
+        // console.log(`${elemName} is still waiting...`);
         setTimeout(checkElement, checkEveryMs);
       }
     };
@@ -47,6 +42,6 @@ function waitForElement(elemName = 'elem', selector, checkEveryMs = 1000) {
  *
  * @returns {boolean}
  */
-function isOnVideo() {
+function isOnVideoURL() {
   return UDEMY_VIDEO_URL_PATTERN.test(window.location.href);
 }

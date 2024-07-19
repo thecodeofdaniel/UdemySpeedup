@@ -1,12 +1,12 @@
-// What's this do?: This updates the DOM, in this case the shown playback rate
-//                  text between the "rewind" and "foward" 5 seconds buttons
+// What's this do?: This updates the shown playback rate text whenever the
+//                  user switches tabs to a another Udemy video. In order to
+//                  reflect the correct playback speed.
 
 async function changePlaybackText() {
   if (!playBackTextElem) {
     playBackTextElem = await waitForElement(
       'playbackTextElem',
       PLAYBACK_TEXT_SELECTOR,
-      500,
     );
   }
 
@@ -17,6 +17,6 @@ async function changePlaybackText() {
   }
 }
 
-if (isOnVideo()) {
+if (isOnVideoURL()) {
   changePlaybackText();
 }

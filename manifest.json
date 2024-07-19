@@ -20,10 +20,13 @@
       "matches": ["https://www.udemy.com/course/*/learn/*"],
       "js": [
         "constants.js",
+        "content_scripts/0_selectors.js",
         "content_scripts/1_shared.js",
-        "content_scripts/2_content.js",
-        "content_scripts/3_update.js",
-        "content_scripts/4_shortcuts.js"
+        "content_scripts/2_popup_listener.js",
+        "content_scripts/3_watchers.js",
+        "content_scripts/4_start.js",
+        "content_scripts/5_update_playback_text.js",
+        "content_scripts/6_shortcuts.js"
       ],
       "run_at": "document_end"
     }
