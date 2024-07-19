@@ -1,5 +1,7 @@
 const VIDEO_SPEED_KEY = 'videoSpeed';
+const SKIP_DELAY_KEY = 'skipUpNext';
 const DEFAULT_SPEED = 1;
+const DEFAULT_SKIP_DELAY_CB_VALUE = true;
 const MIN_SPEED = 0.5;
 const MAX_SPEED = 4;
 

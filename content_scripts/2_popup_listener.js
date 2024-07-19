@@ -5,21 +5,34 @@
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   // Check if videoSpeed from localStorage exists
   let videoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;
+  let response = {};
 
   // Tell popup to use localStorage's speed for reference
-  if (videoSpeed && !message.newSpeedSet) {
-    sendResponse({ speed: videoSpeed });
-    return;
+  if (videoSpeed && !message.newSpeedValue) {
+    response.speed = videoSpeed;
+  } else {
+    // Otherwise accept new videoSpeed from popup
+    videoSpeed = message.videoSpeed;
+
+    if (videoElem && playBackTextElem) {
+      videoElem.playbackRate = +videoSpeed;
+      playBackTextElem.textContent = `${videoSpeed}x`;
+    }
+
+    localStorage.setItem(VIDEO_SPEED_KEY, videoSpeed);
+    response.speed = null;
   }
 
-  // Otherwise accept new videoSpeed from popup
-  videoSpeed = message.videoSpeed;
+  let checkboxValue = localStorage.getItem(SKIP_DELAY_KEY) || null;
 
-  if (videoElem && playBackTextElem) {
-    videoElem.playbackRate = +videoSpeed;
-    playBackTextElem.textContent = `${videoSpeed}x`;
+  if (checkboxValue && !message.newCheckboxValue) {
+    // If localstorage value is found send that to popup
+    response.checkboxValue = checkboxValue;
+  } else {
+    checkboxValue = message.checkboxValue;
+    localStorage.setItem(SKIP_DELAY_KEY, checkboxValue);
+    response.checkboxValue = null;
   }
 
-  localStorage.setItem(VIDEO_SPEED_KEY, videoSpeed);
-  sendResponse({ speed: null });
+  sendResponse(response);
 });

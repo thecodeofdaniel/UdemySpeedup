@@ -3,13 +3,13 @@
 
 const speedRangeInputElem = document.getElementById('speedRangeInput');
 const speedTextInputElem = document.getElementById('speedTextInput');
-const startSpeedElem = document.getElementById('start-speed');
-const endSpeedElem = document.getElementById('end-speed');
+const checkboxElem = document.getElementById('skipUpNextCheckbox');
 
 speedRangeInputElem.min = MIN_SPEED;
 speedRangeInputElem.max = MAX_SPEED;
-startSpeedElem.textContent = `${MIN_SPEED}x`;
-endSpeedElem.textContent = `${MAX_SPEED}x`;
+
+document.getElementById('start-speed').textContent = `${MIN_SPEED}x`;
+document.getElementById('end-speed').textContent = `${MAX_SPEED}x`;
 
 // Gets videoSpeed from localStorage
 function getVideoSpeed() {
@@ -23,10 +23,23 @@ function getVideoSpeed() {
   return videoSpeed;
 }
 
+function getSkipDelayCheckboxValue() {
+  let isChecked = localStorage.getItem(SKIP_DELAY_KEY) || null;
+
+  if (!isChecked) {
+    isChecked = DEFAULT_SKIP_DELAY_CB_VALUE.toString();
+    localStorage.setItem(SKIP_DELAY_KEY, isChecked);
+  }
+
+  return isChecked;
+}
+
 // Grab previous speed and display to GUI popup
 const videoSpeed = getVideoSpeed();
+const skipDelayCBVal = getSkipDelayCheckboxValue();
 speedRangeInputElem.value = videoSpeed;
 speedTextInputElem.value = `${videoSpeed}x`;
+checkboxElem.checked = skipDelayCBVal;
 
 // Listener for input text
 speedTextInputElem.addEventListener('keypress', (event) => {
@@ -89,6 +102,12 @@ speedRangeInputElem.addEventListener('input', () => {
   sendVideoSpeed(value);
 });
 
+checkboxElem.addEventListener('change', () => {
+  const isChecked = checkboxElem.checked;
+  localStorage.setItem(SKIP_DELAY_KEY, isChecked);
+  sendCheckbox();
+});
+
 // Sends new videoSpeed to content_scripts
 function sendVideoSpeed(speed, newSpeedSet = true) {
   return browser.tabs
@@ -97,10 +116,34 @@ function sendVideoSpeed(speed, newSpeedSet = true) {
       let activeTab = tabs[0];
       return browser.tabs.sendMessage(activeTab.id, {
         videoSpeed: `${speed}`,
-        newSpeedSet: newSpeedSet,
+        newSpeedValue: newSpeedSet,
       });
     });
 }
+
+// Sends new checked value to content_scripts
+function sendCheckbox(isNew = true) {
+  return browser.tabs
+    .query({ active: true, currentWindow: true })
+    .then((tabs) => {
+      let activeTab = tabs[0];
+      return browser.tabs.sendMessage(activeTab.id, {
+        checkboxValue: localStorage.getItem(SKIP_DELAY_KEY),
+        newCheckboxValue: isNew,
+      });
+    });
+}
+
+sendCheckbox(false)
+  .then((response) => {
+    console.log('Response from content script:', response);
+    if (response.checkboxValue) {
+      checkboxElem.checked = response.checkboxValue === 'true';
+    }
+  })
+  .catch((error) => {
+    console.error('Error sending message:', error);
+  });
 
 // Sends videoSpeed to content_scripts when user opens up extension and expects
 // a response back
