@@ -15,6 +15,7 @@ function applyPlaybackToNewVid() {
     changePlaybackText();
     findNextVidBtn();
     watchProgressBar();
+    watchPlaybackText();
   }
 }
 
@@ -70,4 +71,50 @@ async function watchProgressBar() {
 
   const observer = new MutationObserver(handleCompleteProgressBar);
   observer.observe(progressBarElem, { attributes: true });
+}
+
+const playbackRates = {
+  '0.5x': 0.5,
+  '0.75x': 0.75,
+  '1x': 1,
+  '1.25x': 1.25,
+  '1.5x': 1.5,
+  '1.75x': 1.75,
+  '2x': 2,
+};
+
+async function watchPlaybackText() {
+  if (!playBackTextElem) {
+    playBackTextElem = await waitForElement(
+      'playbackTextElem',
+      PLAYBACK_TEXT_SELECTOR,
+    );
+  }
+
+  // Function to run when changes are detected
+  const callback = function (mutationsList, observer) {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'childList' || mutation.type === 'characterData') {
+        // Execute your function here when text content changes
+        let playbackText = mutation.target.textContent;
+
+        if (!(playbackText in playbackRates)) return;
+
+        const playbackSpeed = playbackRates[playbackText];
+
+        if (localStorage.getItem(VIDEO_SPEED_KEY) == playbackSpeed) {
+          console.log('already applied');
+        } else {
+          localStorage.setItem(VIDEO_SPEED_KEY, playbackSpeed);
+        }
+      }
+    }
+  };
+
+  const observer = new MutationObserver(callback);
+  observer.observe(playBackTextElem, {
+    subtree: true,
+    characterData: true,
+    childList: true,
+  });
 }

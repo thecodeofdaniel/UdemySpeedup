@@ -37,4 +37,5 @@ if (isOnVideoURL()) {
   setPlayback();
   findNextVidBtn();
   watchProgressBar();
+  watchPlaybackText();
 }
