@@ -9,13 +9,14 @@ function applyPlaybackToNewVid() {
   playBackTextElem = null;
   progressBarElem = null;
   nextButtonElem = null;
+  playbackPopupElem = null;
 
   if (isOnVideoURL()) {
     setPlayback();
     changePlaybackText();
     findNextVidBtn();
     watchProgressBar();
-    watchPlaybackText();
+    listenPlaybackPopup();
   }
 }
 
@@ -73,7 +74,7 @@ async function watchProgressBar() {
   observer.observe(progressBarElem, { attributes: true });
 }
 
-const playbackRates = {
+const udemyPlaybackRates = {
   '0.5x': 0.5,
   '0.75x': 0.75,
   '1x': 1,
@@ -83,38 +84,24 @@ const playbackRates = {
   '2x': 2,
 };
 
-async function watchPlaybackText() {
-  if (!playBackTextElem) {
-    playBackTextElem = await waitForElement(
-      'playbackTextElem',
-      PLAYBACK_TEXT_SELECTOR,
-    );
-  }
+/**
+ * Adds event listener for popup to change playback rate natively
+ */
+async function listenPlaybackPopup() {
+  playbackPopupElem = await waitForElement(
+    'playbackPopup',
+    PLAYBACK_POPUP_SELECTOR,
+  );
 
-  // Function to run when changes are detected
-  const callback = function (mutationsList, observer) {
-    for (const mutation of mutationsList) {
-      if (mutation.type === 'childList' || mutation.type === 'characterData') {
-        // Execute your function here when text content changes
-        let playbackText = mutation.target.textContent;
+  playbackPopupElem.addEventListener('click', (event) => {
+    let speed = event.target.innerText;
 
-        if (!(playbackText in playbackRates)) return;
+    if (!(speed in udemyPlaybackRates)) return;
 
-        const playbackSpeed = playbackRates[playbackText];
+    speed = udemyPlaybackRates[speed];
 
-        if (localStorage.getItem(VIDEO_SPEED_KEY) == playbackSpeed) {
-          console.log('already applied');
-        } else {
-          localStorage.setItem(VIDEO_SPEED_KEY, playbackSpeed);
-        }
-      }
-    }
-  };
-
-  const observer = new MutationObserver(callback);
-  observer.observe(playBackTextElem, {
-    subtree: true,
-    characterData: true,
-    childList: true,
+    playBackTextElem.textContent = `${speed}x`;
+    videoElem.playbackRate = speed;
+    localStorage.setItem(VIDEO_SPEED_KEY, speed);
   });
 }

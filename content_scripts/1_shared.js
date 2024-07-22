@@ -13,6 +13,9 @@ let progressBarElem = null;
 /** @type {Element} */
 let nextButtonElem = null;
 
+/** @type {Element} */
+let playbackPopupElem = null;
+
 /**
  * Returns the element in the DOM once it has rendered
  *
