@@ -2,26 +2,8 @@
 //                  Triggering some functions to run.
 
 /**
- * Resets all elements relating to video and applys neccessary js to new video
- */
-function applyPlaybackToNewVid() {
-  videoElem = null;
-  playBackTextElem = null;
-  progressBarElem = null;
-  nextButtonElem = null;
-  playbackPopupElem = null;
-
-  if (isOnVideoURL()) {
-    setPlayback();
-    changePlaybackText();
-    findNextVidBtn();
-    watchProgressBar();
-    listenPlaybackPopup();
-  }
-}
-
-/**
- * Watches for any URL changes.
+ * Watches for any URL changes. If so, run functions to apply playback to next
+ * video
  */
 function watchURLChanges() {
   let currentURL = window.location.href;
@@ -30,11 +12,10 @@ function watchURLChanges() {
     const newURL = window.location.href;
     if (newURL !== currentURL) {
       currentURL = newURL;
-      applyPlaybackToNewVid();
+      applyPlaybackToNewVid((firstRun = false));
     }
   };
 
-  // Create a MutationObserver to watch for changes in the document title
   const observer = new MutationObserver(handleURLChange);
   observer.observe(document.querySelector('title'), { childList: true });
 
@@ -74,16 +55,6 @@ async function watchProgressBar() {
   observer.observe(progressBarElem, { attributes: true });
 }
 
-const udemyPlaybackRates = {
-  '0.5x': 0.5,
-  '0.75x': 0.75,
-  '1x': 1,
-  '1.25x': 1.25,
-  '1.5x': 1.5,
-  '1.75x': 1.75,
-  '2x': 2,
-};
-
 /**
  * Adds event listener for popup to change playback rate natively
  */
@@ -96,12 +67,12 @@ async function listenPlaybackPopup() {
   playbackPopupElem.addEventListener('click', (event) => {
     let speed = event.target.innerText;
 
-    if (!(speed in udemyPlaybackRates)) return;
+    if (!(speed in UDEMY_PLAYBACK_RATES)) return;
 
-    speed = udemyPlaybackRates[speed];
+    speed = UDEMY_PLAYBACK_RATES[speed];
 
-    playBackTextElem.textContent = `${speed}x`;
     videoElem.playbackRate = speed;
+    playBackTextElem.textContent = `${speed}x`;
     localStorage.setItem(VIDEO_SPEED_KEY, speed);
   });
 }

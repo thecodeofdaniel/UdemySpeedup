@@ -16,6 +16,17 @@ let nextButtonElem = null;
 /** @type {Element} */
 let playbackPopupElem = null;
 
+/** Udemy's playback rates */
+const UDEMY_PLAYBACK_RATES = {
+  '0.5x': 0.5,
+  '0.75x': 0.75,
+  '1x': 1,
+  '1.25x': 1.25,
+  '1.5x': 1.5,
+  '1.75x': 1.75,
+  '2x': 2,
+};
+
 /**
  * Returns the element in the DOM once it has rendered
  *
@@ -47,4 +58,28 @@ function waitForElement(elemName = 'elem', selector, checkEveryMs = 1000) {
  */
 function isOnVideoURL() {
   return UDEMY_VIDEO_URL_PATTERN.test(window.location.href);
+}
+
+/**
+ * Applys all necessary functions in order to apply manipulate the DOM. Needs to
+ * now if page is reloaded. If so, then it's on its first run.
+ *
+ * @param {boolean} firstRun
+ */
+function applyPlaybackToNewVid(firstRun) {
+  if (!firstRun) {
+    videoElem = null;
+    playBackTextElem = null;
+    progressBarElem = null;
+    nextButtonElem = null;
+    playbackPopupElem = null;
+  }
+
+  if (isOnVideoURL()) {
+    setPlayback();
+    !firstRun && changePlaybackText();
+    findNextVidBtn();
+    watchProgressBar();
+    listenPlaybackPopup();
+  }
 }

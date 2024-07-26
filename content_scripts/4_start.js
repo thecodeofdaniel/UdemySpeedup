@@ -32,10 +32,4 @@ async function findNextVidBtn() {
 }
 
 watchURLChanges();
-
-if (isOnVideoURL()) {
-  setPlayback();
-  findNextVidBtn();
-  watchProgressBar();
-  listenPlaybackPopup();
-}
+applyPlaybackToNewVid((firstRun = true));

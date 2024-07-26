@@ -5,14 +5,15 @@
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   let response = {};
 
-  let LSvideoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;
+  const LSvideoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;
+  const isNewVideoSpeed = message.newSpeedValue;
 
   // If video speed is already set on client side
-  if (LSvideoSpeed && !message.newSpeedValue) {
+  if (LSvideoSpeed && !isNewVideoSpeed) {
     response.speed = LSvideoSpeed;
   }
   // If video speed is NOT SET on client side or new value is set
-  else if (!LSvideoSpeed || message.newSpeedValue) {
+  else if (!LSvideoSpeed || isNewVideoSpeed) {
     const newVideoSpeed = message.videoSpeed;
 
     if (videoElem && playBackTextElem) {
@@ -24,14 +25,15 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     response.speed = null;
   }
 
-  let checkboxValue = localStorage.getItem(SKIP_DELAY_KEY) || null;
+  const LScheckboxValue = localStorage.getItem(SKIP_DELAY_KEY) || null;
+  const isNewCheckboxValue = message.newCheckboxValue;
 
   // If checkbox is already set on client side
-  if (checkboxValue && !message.newCheckboxValue) {
-    response.checkboxValue = checkboxValue;
+  if (LScheckboxValue && !isNewCheckboxValue) {
+    response.checkboxValue = LScheckboxValue;
   }
   // If checkbox is NOT SET on client side or new value is set
-  else if (!checkboxValue || message.newCheckboxValue) {
+  else if (!LScheckboxValue || isNewCheckboxValue) {
     const newCheckboxValue = message.checkboxValue;
     localStorage.setItem(SKIP_DELAY_KEY, newCheckboxValue);
     response.checkboxValue = null;
