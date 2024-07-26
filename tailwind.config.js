@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./popup/popup.html'],
+  content: ['./src/popup/popup.html'],
   theme: {
     extend: {},
   },

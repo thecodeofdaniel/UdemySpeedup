@@ -7,26 +7,26 @@
     "64": "icons/logo-64.png"
   },
   "browser_action": {
-    "default_popup": "popup/popup.html",
+    "default_popup": "src/popup/popup.html",
     "default_icon": {
       "64": "icons/logo-64.png"
     }
   },
   "background": {
-    "scripts": ["constants.js", "background/background.js"]
+    "scripts": ["src/constants.js", "src/background/background.js"]
   },
   "content_scripts": [
     {
       "matches": ["https://www.udemy.com/course/*/learn/*"],
       "js": [
-        "constants.js",
-        "content_scripts/0_selectors.js",
-        "content_scripts/1_shared.js",
-        "content_scripts/2_popup_listener.js",
-        "content_scripts/3_watchers.js",
-        "content_scripts/4_start.js",
-        "content_scripts/5_update_playback_text.js",
-        "content_scripts/6_shortcuts.js"
+        "src/constants.js",
+        "src/content_scripts/0_selectors.js",
+        "src/content_scripts/1_shared.js",
+        "src/content_scripts/2_popup_listener.js",
+        "src/content_scripts/3_watchers.js",
+        "src/content_scripts/4_start.js",
+        "src/content_scripts/5_update_playback_text.js",
+        "src/content_scripts/6_shortcuts.js"
       ],
       "run_at": "document_end"
     }

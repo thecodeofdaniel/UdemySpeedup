@@ -48,7 +48,7 @@ npm run tailwind:watch
 Using the following command
 
 ```bash
-tree -I ".git|node_modules"
+tree src
 ```
 
 You'll get the structure of the project. Let's run it down.

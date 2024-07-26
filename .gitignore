@@ -2,4 +2,4 @@
 node_modules
 
 # Ignore generated css from tailwind
-popup/output.css
+src/popup/css/output.css
