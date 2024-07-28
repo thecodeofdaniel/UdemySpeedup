@@ -5,14 +5,14 @@
 
 /**
  * Gets videoSpeed from local storage.
- * @returns {string}
+ * @returns {number}
  */
 function LS_videoSpeed() {
-  let videoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;
+  let videoSpeed = LSget(VIDEO_SPEED_KEY);
 
-  if (!videoSpeed) {
-    videoSpeed = DEFAULT_SPEED.toString();
-    localStorage.setItem(VIDEO_SPEED_KEY, videoSpeed);
+  if (videoSpeed === null) {
+    videoSpeed = DEFAULT_SPEED;
+    LSset(VIDEO_SPEED_KEY, videoSpeed);
   }
 
   return videoSpeed;
@@ -20,7 +20,7 @@ function LS_videoSpeed() {
 
 /**
  * Gets checkbox value from local storage
- * @returns {"true"|"false"}
+ * @returns {boolean}
  */
 function LS_checkboxValue() {
   let isChecked = LSget(SKIP_DELAY_KEY);

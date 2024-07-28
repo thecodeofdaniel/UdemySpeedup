@@ -65,14 +65,14 @@ async function listenPlaybackPopup() {
   );
 
   playbackPopupElem.addEventListener('click', (event) => {
-    let speed = event.target.innerText;
+    let playbackText = event.target.innerText;
 
-    if (!(speed in UDEMY_PLAYBACK_RATES)) return;
+    if (!(playbackText in UDEMY_PLAYBACK_RATES)) return;
 
-    speed = UDEMY_PLAYBACK_RATES[speed];
+    const speed = UDEMY_PLAYBACK_RATES[playbackText];
 
     videoElem.playbackRate = speed;
     playBackTextElem.textContent = `${speed}x`;
-    localStorage.setItem(VIDEO_SPEED_KEY, speed);
+    LSset(VIDEO_SPEED_KEY, speed);
   });
 }

@@ -12,14 +12,25 @@ const MAX_SPEED = 4;
 const UDEMY_VIDEO_URL_PATTERN =
   /^https:\/\/www\.udemy\.com\/course\/[^\/]+\/learn\/lecture\/[^\/]+$/;
 
+/**
+ * Sets a key value in local storage. However it stores it as a JSON string.
+ * This is to save the value type when retreiving the value.
+ * @param {string} key
+ * @param {any} value
+ * @return {void}
+ */
 function LSset(key, value) {
-  const jsonVal = JSON.stringify(value);
-  // console.log(jsonVal);
-  localStorage.setItem(key, jsonVal);
+  const jsonStr = JSON.stringify(value);
+  localStorage.setItem(key, jsonStr);
 }
 
+/**
+ * Retrieves a value in local storage. Using JSON.parse(). This saves the value
+ * type, making it predictable.
+ * @param {string} key
+ * @returns {any}
+ */
 function LSget(key) {
   const jsonVal = JSON.parse(localStorage.getItem(key));
-  // console.log(jsonVal);
   return jsonVal;
 }

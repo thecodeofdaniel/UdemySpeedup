@@ -68,5 +68,5 @@ logCurrentTabUrl();
 
 // Listen for messages from the content script "shortcuts.js"
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  localStorage.setItem(VIDEO_SPEED_KEY, request.speed);
+  LSset(VIDEO_SPEED_KEY, request.speed);
 });

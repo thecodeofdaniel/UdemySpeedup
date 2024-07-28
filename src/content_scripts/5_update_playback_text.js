@@ -10,7 +10,7 @@ async function changePlaybackText() {
     );
   }
 
-  const videoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;
+  const videoSpeed = LSget(VIDEO_SPEED_KEY);
 
   if (videoSpeed) {
     playBackTextElem.textContent = `${videoSpeed}x`;

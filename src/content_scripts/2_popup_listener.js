@@ -6,15 +6,15 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   let response = {};
   console.log('Message from popup: ', message);
 
-  const LSvideoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;
+  const LSvideoSpeed = LSget(VIDEO_SPEED_KEY);
   const isNewVideoSpeed = message.newSpeedValue;
 
   // If video speed is already set on client side
-  if (LSvideoSpeed && !isNewVideoSpeed) {
+  if (LSvideoSpeed !== null && !isNewVideoSpeed) {
     response.speed = LSvideoSpeed;
   }
   // If video speed is NOT SET on client side or new value is set
-  else if (!LSvideoSpeed || isNewVideoSpeed) {
+  else if (LSvideoSpeed === null || isNewVideoSpeed) {
     const newVideoSpeed = message.videoSpeed;
 
     if (videoElem && playBackTextElem) {
@@ -22,7 +22,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
       playBackTextElem.textContent = `${newVideoSpeed}x`;
     }
 
-    localStorage.setItem(VIDEO_SPEED_KEY, newVideoSpeed);
+    LSset(VIDEO_SPEED_KEY, newVideoSpeed);
     response.speed = null;
   }
 

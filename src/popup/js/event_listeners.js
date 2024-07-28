@@ -13,7 +13,7 @@ speedTextInputElem.addEventListener('keypress', (event) => {
     return;
   }
 
-  // Grab the value (of type string)
+  // Grab the value (of type string) and remove any whitespace
   let value = speedTextInputElem.value.trim();
 
   // If the last character is an x, remove it
@@ -37,14 +37,17 @@ speedTextInputElem.addEventListener('keypress', (event) => {
     }
   }
 
-  if (+value < MIN_SPEED) {
+  // Convert string to number
+  value = +value;
+
+  if (value < MIN_SPEED) {
     speedTextInputElem.value = `${MIN_SPEED}x`;
-    value = MIN_SPEED.toString();
+    value = MIN_SPEED;
   }
 
-  if (+value > MAX_SPEED) {
+  if (value > MAX_SPEED) {
     speedTextInputElem.value = `${MAX_SPEED}x`;
-    value = MAX_SPEED.toString();
+    value = MAX_SPEED;
   }
 
   // If the new video speed is the same as old, then don't continue
@@ -52,7 +55,7 @@ speedTextInputElem.addEventListener('keypress', (event) => {
     return;
   }
 
-  localStorage.setItem(VIDEO_SPEED_KEY, value);
+  LSset(VIDEO_SPEED_KEY, value);
   speedRangeInputElem.value = value;
   speedTextInputElem.value = `${value}x`;
   sendMessage(videoSpeedObj((isSet = true)));
@@ -60,9 +63,9 @@ speedTextInputElem.addEventListener('keypress', (event) => {
 
 // Listener for range (slider) input
 speedRangeInputElem.addEventListener('input', () => {
-  let value = speedRangeInputElem.value;
+  let value = +speedRangeInputElem.value;
 
-  localStorage.setItem(VIDEO_SPEED_KEY, value);
+  LSset(VIDEO_SPEED_KEY, value);
   speedTextInputElem.value = `${value}x`;
   sendMessage(videoSpeedObj((isSet = true)));
 });

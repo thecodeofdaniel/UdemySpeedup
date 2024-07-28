@@ -12,7 +12,7 @@ document.addEventListener('keydown', (event) => {
     return;
   }
 
-  let videoSpeed = +localStorage.getItem(VIDEO_SPEED_KEY) || DEFAULT_SPEED;
+  let videoSpeed = LSget(VIDEO_SPEED_KEY);
 
   if (videoSpeed) {
     if (event.key === '[') {
@@ -31,7 +31,7 @@ document.addEventListener('keydown', (event) => {
 
     videoElem.playbackRate = videoSpeed;
     playBackTextElem.textContent = `${videoSpeed}x`;
-    localStorage.setItem(VIDEO_SPEED_KEY, videoSpeed);
+    LSset(VIDEO_SPEED_KEY, videoSpeed);
 
     // Send message to background.js
     browser.runtime.sendMessage({
@@ -39,13 +39,3 @@ document.addEventListener('keydown', (event) => {
     });
   }
 });
-
-// localStorage.removeItem('idk');
-// LSset('idk', null)
-// LSset('idk', {
-//   bool: false,
-//   greeting: 'hello',
-//   leaving: 'bye',
-// });
-
-// LSget('idk');
