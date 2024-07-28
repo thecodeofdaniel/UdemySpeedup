@@ -11,3 +11,15 @@ const MAX_SPEED = 4;
 // bar = is the id of the lecture
 const UDEMY_VIDEO_URL_PATTERN =
   /^https:\/\/www\.udemy\.com\/course\/[^\/]+\/learn\/lecture\/[^\/]+$/;
+
+function LSset(key, value) {
+  const jsonVal = JSON.stringify(value);
+  // console.log(jsonVal);
+  localStorage.setItem(key, jsonVal);
+}
+
+function LSget(key) {
+  const jsonVal = JSON.parse(localStorage.getItem(key));
+  // console.log(jsonVal);
+  return jsonVal;
+}

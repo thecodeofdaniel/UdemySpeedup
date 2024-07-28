@@ -4,6 +4,7 @@
 
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   let response = {};
+  console.log('Message from popup: ', message);
 
   const LSvideoSpeed = localStorage.getItem(VIDEO_SPEED_KEY) || null;
   const isNewVideoSpeed = message.newSpeedValue;
@@ -25,15 +26,19 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     response.speed = null;
   }
 
-  const LScheckboxValue = localStorage.getItem(SKIP_DELAY_KEY) || null;
+  // const LScheckboxValue = localStorage.getItem(SKIP_DELAY_KEY) || null;
+  const LScheckboxValue = LSget(SKIP_DELAY_KEY);
+  console.log('LScheckboxValue:', LScheckboxValue);
   const isNewCheckboxValue = message.newCheckboxValue;
 
   // If checkbox is already set on client side
-  if (LScheckboxValue && !isNewCheckboxValue) {
+  if (LScheckboxValue !== null && !isNewCheckboxValue) {
+    console.log('1');
     response.checkboxValue = LScheckboxValue;
   }
   // If checkbox is NOT SET on client side or new value is set
-  else if (!LScheckboxValue || isNewCheckboxValue) {
+  else if (LScheckboxValue === null || isNewCheckboxValue) {
+    console.log('2');
     const newCheckboxValue = message.checkboxValue;
     localStorage.setItem(SKIP_DELAY_KEY, newCheckboxValue);
     response.checkboxValue = null;

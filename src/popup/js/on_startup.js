@@ -29,10 +29,10 @@ sendMessage({
 
     // If a checkbox value is already set on the client side, use speed on
     // extension side instead
-    if (response.checkboxValue) {
-      checkboxElem.checked = response.checkboxValue === 'true';
+    if (response.checkboxValue !== null) {
+      checkboxElem.checked = response.checkboxValue;
     } else {
-      checkboxElem.checked = LS_checkboxValue() === 'true';
+      checkboxElem.checked = LS_checkboxValue();
     }
   })
   .catch((error) => {

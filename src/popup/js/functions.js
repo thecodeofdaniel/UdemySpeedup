@@ -23,13 +23,19 @@ function LS_videoSpeed() {
  * @returns {"true"|"false"}
  */
 function LS_checkboxValue() {
-  let isChecked = localStorage.getItem(SKIP_DELAY_KEY) || null;
+  // let isChecked = localStorage.getItem(SKIP_DELAY_KEY) || null;
+  let isChecked = LSget(SKIP_DELAY_KEY);
+  console.log('isChecked initial:', isChecked);
 
-  if (!isChecked) {
-    isChecked = DEFAULT_CHECKBOX_VALUE.toString();
-    localStorage.setItem(SKIP_DELAY_KEY, isChecked);
+  if (isChecked === null) {
+    console.log('Here');
+    // isChecked = DEFAULT_CHECKBOX_VALUE.toString();
+    // localStorage.setItem(SKIP_DELAY_KEY, isChecked);
+    isChecked = DEFAULT_CHECKBOX_VALUE;
+    LSset(SKIP_DELAY_KEY, isChecked);
   }
 
+  console.log('isChecked after:', isChecked);
   return isChecked;
 }
 

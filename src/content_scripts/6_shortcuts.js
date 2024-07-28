@@ -39,3 +39,13 @@ document.addEventListener('keydown', (event) => {
     });
   }
 });
+
+// localStorage.removeItem('idk');
+// LSset('idk', null)
+// LSset('idk', {
+//   bool: false,
+//   greeting: 'hello',
+//   leaving: 'bye',
+// });
+
+// LSget('idk');
