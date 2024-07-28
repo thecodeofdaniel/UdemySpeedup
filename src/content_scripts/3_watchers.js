@@ -43,7 +43,7 @@ async function watchProgressBar() {
         const currentValue = progressBarElem.getAttribute('aria-valuenow');
         if (currentValue === '100') {
           observer.disconnect();
-          if (localStorage.getItem(SKIP_DELAY_KEY) === 'true') {
+          if (LSget(SKIP_DELAY_KEY) === true) {
             nextButtonElem.click();
           }
         }

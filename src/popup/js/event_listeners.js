@@ -69,6 +69,6 @@ speedRangeInputElem.addEventListener('input', () => {
 
 // Listener for checkbox
 checkboxElem.addEventListener('change', () => {
-  localStorage.setItem(SKIP_DELAY_KEY, checkboxElem.checked);
+  LSset(SKIP_DELAY_KEY, checkboxElem.checked);
   sendMessage(checkboxValObj((isSet = true)));
 });
