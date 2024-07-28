@@ -6,7 +6,7 @@
 //       extension and click on "Inspect".
 
 // Declare path to content script
-const CONTENT_SCRIPT_PATH = '/content_scripts/5_update_playback_text.js';
+const CONTENT_SCRIPT_PATH = '/src/content_scripts/5_update_playback_text.js';
 
 /**
  * Checks if extension should be enabled or not
