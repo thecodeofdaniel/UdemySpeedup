@@ -20,8 +20,6 @@ async function setPlayback() {
 
   // Add event listeners to ensure playback rate persists
   videoElem.addEventListener('play', apply);
-  videoElem.addEventListener('loadedmetadata', apply);
-  videoElem.addEventListener('ratechange', apply);
 }
 
 /**
