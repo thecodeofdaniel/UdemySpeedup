@@ -4,7 +4,7 @@
 
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   let response = {};
-  console.log('Message from popup: ', message);
+  // console.log('Message from popup: ', message);
 
   const LSvideoSpeed = LSget(VIDEO_SPEED_KEY);
   const isNewVideoSpeed = message.newSpeedValue;
