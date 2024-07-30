@@ -12,30 +12,34 @@ document.addEventListener('keydown', (event) => {
     return;
   }
 
-  let videoSpeed = LSget(VIDEO_SPEED_KEY);
+  // Get video speed from local storage otherwise use the current one on Udemy
+  let videoSpeed =
+    LSget(VIDEO_SPEED_KEY) || toNumber(playBackTextElem.textContent);
 
-  if (videoSpeed) {
-    if (event.key === '[') {
-      videoSpeed -= 0.25;
-      if (videoSpeed < MIN_SPEED) {
-        videoSpeed = MIN_SPEED;
-      }
-    }
+  // If null then return
+  if (!videoSpeed) return;
 
-    if (event.key === ']') {
-      videoSpeed += 0.25;
-      if (videoSpeed > MAX_SPEED) {
-        videoSpeed = MAX_SPEED;
-      }
-    }
+  // Increment speed by 0.25
+  if (event.key === '[') {
+    videoSpeed = roundUp(videoSpeed - 0.25);
 
-    videoElem.playbackRate = videoSpeed;
-    playBackTextElem.textContent = `${videoSpeed}x`;
-    LSset(VIDEO_SPEED_KEY, videoSpeed);
-
-    // Send message to background.js
-    browser.runtime.sendMessage({
-      speed: videoSpeed,
-    });
+    if (videoSpeed < MIN_SPEED) videoSpeed = MIN_SPEED;
   }
+
+  // Decrement speed by 0.25
+  if (event.key === ']') {
+    videoSpeed = roundUp(videoSpeed + 0.25);
+
+    if (videoSpeed > MAX_SPEED) videoSpeed = MAX_SPEED;
+  }
+
+  // Reflect new speed
+  videoElem.playbackRate = videoSpeed;
+  playBackTextElem.textContent = `${videoSpeed}x`;
+  LSset(VIDEO_SPEED_KEY, videoSpeed);
+
+  // Send speed to popup/background
+  browser.runtime.sendMessage({
+    speed: videoSpeed,
+  });
 });

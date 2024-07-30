@@ -13,40 +13,22 @@ speedTextInputElem.addEventListener('keypress', (event) => {
     return;
   }
 
-  // Grab the value (of type string) and remove any whitespace
-  let value = speedTextInputElem.value.trim();
+  // Grab the value (of type string) and remove any whitespace and trailing 'x'
+  let value = toNumber(speedTextInputElem.value);
 
-  // If the last character is an x, remove it
-  if (value.endsWith('x')) {
-    value = value.slice(0, -1);
-  }
-
-  // Dont continue if the value is empty or not a value
-  if (!value || isNaN(value)) {
+  // If not a number DO NOT continue
+  if (value === null) {
     speedTextInputElem.value = `${LS_videoSpeed()}x`;
     return;
   }
 
-  // if value is a decimal, make sure it only has two two decimal places
-  if (value.includes('.')) {
-    const decimalPart = value.split('.')[1];
+  // Round up value to two decimal places
+  value = roundUp(value);
 
-    // Check if the decimal part has 3 or more digits (if so roundup)
-    if (decimalPart.length >= 3) {
-      value = parseFloat(value).toFixed(2);
-    }
-  }
-
-  // Convert string to number
-  value = +value;
-
+  // Check if speed is out of bounds
   if (value < MIN_SPEED) {
-    speedTextInputElem.value = `${MIN_SPEED}x`;
     value = MIN_SPEED;
-  }
-
-  if (value > MAX_SPEED) {
-    speedTextInputElem.value = `${MAX_SPEED}x`;
+  } else if (value > MAX_SPEED) {
     value = MAX_SPEED;
   }
 

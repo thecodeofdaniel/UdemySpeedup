@@ -37,3 +37,34 @@ function LSget(key) {
   const jsonVal = JSON.parse(localStorage.getItem(key));
   return jsonVal;
 }
+
+/**
+ * Removes any whitespace and removes the trailing 'x'. If there is
+ * one. Then converts the string to number.
+ * If empty return null.
+ * If not a number return NaN.
+ * @param {string} str
+ * @return {number|null}
+ */
+function toNumber(str) {
+  str = str.trim().toUpperCase();
+
+  if (str.endsWith('X')) {
+    str = str.slice(0, -1);
+  }
+
+  if (str === '' || str === null || isNaN(str)) {
+    return null;
+  }
+
+  return +str;
+}
+
+/**
+ * Rounds up a float value to two decimal places
+ * @param {number|string} value
+ * @return {number}
+ */
+function roundUp(value) {
+  return parseFloat(value.toFixed(2));
+}

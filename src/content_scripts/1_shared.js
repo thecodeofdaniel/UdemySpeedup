@@ -16,17 +16,6 @@ let nextButtonElem = null;
 /** @type {Element} */
 let playbackPopupElem = null;
 
-/** Udemy's playback rates */
-const UDEMY_PLAYBACK_RATES = {
-  '0.5x': 0.5,
-  '0.75x': 0.75,
-  '1x': 1,
-  '1.25x': 1.25,
-  '1.5x': 1.5,
-  '1.75x': 1.75,
-  '2x': 2,
-};
-
 /**
  * Returns the element in the DOM once it has rendered
  *
