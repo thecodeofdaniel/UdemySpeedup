@@ -2,25 +2,40 @@
 //                  Triggering some functions to run.
 
 /**
- * Watches for any URL changes. If so, run functions to apply playback to next
- * video
+ * Returns the lecture id on the current URL.
+ * @param {string} url
+ * @returns {string|null} lecture id
+ */
+function getLectureId(url) {
+  const pattern =
+    /^https:\/\/www\.udemy\.com\/course\/[^\/]+\/learn\/lecture\/(\d+)/;
+  const match = url.match(pattern);
+
+  if (match) {
+    const lectureId = match[1];
+    return lectureId;
+  }
+
+  return null;
+}
+
+/**
+ * Watches for URL changes. If URL is on a new lecture then apply playback to
+ * new video
  */
 function watchURLChanges() {
-  let currentURL = window.location.href;
+  let currentLectureId = getLectureId(location.href);
 
-  const handleURLChange = () => {
-    const newURL = window.location.href;
-    if (newURL !== currentURL) {
-      currentURL = newURL;
+  const observer = new MutationObserver((mutations) => {
+    const newLectureId = getLectureId(location.href);
+    if (newLectureId !== currentLectureId) {
+      currentLectureId = newLectureId;
       applyPlaybackToNewVid((firstRun = false));
     }
-  };
+  });
 
-  const observer = new MutationObserver(handleURLChange);
-  observer.observe(document.querySelector('title'), { childList: true });
-
-  // Fallback: periodically check the URL (in case the MutationObserver doesn't catch it)
-  setInterval(handleURLChange, 1000);
+  const config = { subtree: true, childList: true };
+  observer.observe(document, config);
 }
 
 /**

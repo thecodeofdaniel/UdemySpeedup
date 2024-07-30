@@ -10,10 +10,10 @@ const MAX_SPEED = 4;
  *
  * foo = name of the course
  *
- * bar = is the id of the lecture
+ * bar = the rest of the url where it also includes the id of the lecture
  */
 const UDEMY_VIDEO_URL_PATTERN =
-  /^https:\/\/www\.udemy\.com\/course\/[^\/]+\/learn\/lecture\/[^\/]+$/;
+  /^https:\/\/www\.udemy\.com\/course\/[^\/]+\/learn\/lecture/;
 
 /**
  * Sets a key value in local storage. However it stores it as a JSON string.
