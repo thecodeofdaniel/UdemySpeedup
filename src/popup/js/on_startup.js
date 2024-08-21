@@ -7,34 +7,31 @@
 speedRangeInputElem.min = MIN_SPEED;
 speedRangeInputElem.max = MAX_SPEED;
 
-// Send message to content_scripts when extension is opened up
-sendMessage({
-  ...videoSpeedObj((isSet = false)),
-  ...checkboxValObj((isSet = false)),
-})
-  .then((response) => {
-    console.log('Response from content script:', response);
+// // Clear local storage for testing purposes :)
+// browser.storage.local.clear();
 
-    // If a videospeed is already set on the client side, use speed on extension
-    // side instead
-    if (response.speed) {
-      const videoSpeed = response.speed;
-      speedRangeInputElem.value = videoSpeed;
-      speedTextInputElem.value = `${videoSpeed}x`;
-    } else {
-      const videoSpeed = LS_videoSpeed();
-      speedRangeInputElem.value = videoSpeed;
-      speedTextInputElem.value = `${videoSpeed}x`;
-    }
+// get/set video speed
+browser.storage.local.get(VIDEO_SPEED_KEY, (result) => {
+  const value = result[VIDEO_SPEED_KEY];
 
-    // If a checkbox value is already set on the client side, use speed on
-    // extension side instead
-    if (response.checkboxValue !== null) {
-      checkboxElem.checked = response.checkboxValue;
-    } else {
-      checkboxElem.checked = LS_checkboxValue();
-    }
-  })
-  .catch((error) => {
-    console.error('Error sending message:', error);
-  });
+  if (value !== undefined) {
+    speedRangeInputElem.value = value;
+    speedTextInputElem.value = `${value}x`;
+  } else {
+    LSset(VIDEO_SPEED_KEY, DEFAULT_SPEED);
+    speedRangeInputElem.value = DEFAULT_SPEED;
+    speedTextInputElem.value = `${DEFAULT_SPEED}x`;
+  }
+});
+
+// get/set skipUpNext
+browser.storage.local.get(SKIP_DELAY_KEY, (result) => {
+  const value = result[SKIP_DELAY_KEY];
+
+  if (value !== undefined) {
+    checkboxElem.checked = value;
+  } else {
+    LSset(SKIP_DELAY_KEY, DEFAULT_CHECKBOX_VALUE);
+    checkboxElem.checked = DEFAULT_CHECKBOX_VALUE;
+  }
+});

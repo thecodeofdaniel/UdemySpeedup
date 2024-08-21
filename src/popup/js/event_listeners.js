@@ -7,7 +7,7 @@ const speedTextInputElem = document.getElementById('speedTextInput');
 const checkboxElem = document.getElementById('skipUpNextCheckbox');
 
 // Listener for input text
-speedTextInputElem.addEventListener('keypress', (event) => {
+speedTextInputElem.addEventListener('keypress', async (event) => {
   // Continue thru the function once the user hits "Enter"
   if (!(event.key === 'Enter')) {
     return;
@@ -15,10 +15,11 @@ speedTextInputElem.addEventListener('keypress', (event) => {
 
   // Grab the value (of type string) and remove any whitespace and trailing 'x'
   let value = toNumber(speedTextInputElem.value);
+  const localVideoSpeed = await LS_videoSpeed();
 
   // If not a number DO NOT continue
   if (value === null) {
-    speedTextInputElem.value = `${LS_videoSpeed()}x`;
+    speedTextInputElem.value = `${localVideoSpeed}x`;
     return;
   }
 
@@ -33,14 +34,15 @@ speedTextInputElem.addEventListener('keypress', (event) => {
   }
 
   // If the new video speed is the same as old, then don't continue
-  if (value === LS_videoSpeed()) {
+  if (value === localVideoSpeed) {
+    speedTextInputElem.value = `${localVideoSpeed}x`;
     return;
   }
 
   LSset(VIDEO_SPEED_KEY, value);
   speedRangeInputElem.value = value;
   speedTextInputElem.value = `${value}x`;
-  sendMessage(videoSpeedObj((isSet = true)));
+  sendKeyVal(VIDEO_SPEED_KEY, value);
 });
 
 // Listener for range (slider) input
@@ -49,11 +51,10 @@ speedRangeInputElem.addEventListener('input', () => {
 
   LSset(VIDEO_SPEED_KEY, value);
   speedTextInputElem.value = `${value}x`;
-  sendMessage(videoSpeedObj((isSet = true)));
+  sendKeyVal(VIDEO_SPEED_KEY, value);
 });
 
 // Listener for checkbox
 checkboxElem.addEventListener('change', () => {
   LSset(SKIP_DELAY_KEY, checkboxElem.checked);
-  sendMessage(checkboxValObj((isSet = true)));
 });

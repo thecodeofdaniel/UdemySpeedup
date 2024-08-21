@@ -65,8 +65,3 @@ browser.tabs.onActivated.addListener((activeInfo) => {
 
 // Run on startup
 logCurrentTabUrl();
-
-// Listen for messages from the content script "shortcuts.js"
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  LSset(VIDEO_SPEED_KEY, request.speed);
-});

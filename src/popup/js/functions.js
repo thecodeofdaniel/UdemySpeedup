@@ -5,32 +5,16 @@
 
 /**
  * Gets videoSpeed from local storage.
- * @returns {number}
+ * @returns {Promise<number>}
  */
 function LS_videoSpeed() {
-  let videoSpeed = LSget(VIDEO_SPEED_KEY);
+  return browser.storage.local.get(VIDEO_SPEED_KEY).then((result) => {
+    if (result[VIDEO_SPEED_KEY] === undefined) {
+      return DEFAULT_SPEED;
+    }
 
-  if (videoSpeed === null) {
-    videoSpeed = DEFAULT_SPEED;
-    LSset(VIDEO_SPEED_KEY, videoSpeed);
-  }
-
-  return videoSpeed;
-}
-
-/**
- * Gets checkbox value from local storage
- * @returns {boolean}
- */
-function LS_checkboxValue() {
-  let isChecked = LSget(SKIP_DELAY_KEY);
-
-  if (isChecked === null) {
-    isChecked = DEFAULT_CHECKBOX_VALUE;
-    LSset(SKIP_DELAY_KEY, isChecked);
-  }
-
-  return isChecked;
+    return result[VIDEO_SPEED_KEY];
+  });
 }
 
 /**
@@ -47,26 +31,8 @@ function sendMessage(obj) {
     });
 }
 
-/**
- * Sends the video speed object. Dictates whether value is newly set.
- * @param {boolean} isSet
- * @returns {object}
- */
-function videoSpeedObj(isSet) {
-  return {
-    newSpeedValue: isSet,
-    videoSpeed: LS_videoSpeed(),
-  };
-}
-
-/**
- * Sends the checkbox object. Dictates whether value is newly set.
- * @param {boolean} isSet
- * @returns {object}
- */
-function checkboxValObj(isSet) {
-  return {
-    newCheckboxValue: isSet,
-    checkboxValue: LS_checkboxValue(),
-  };
+function sendKeyVal(key, val) {
+  const obj = {};
+  obj[key] = val;
+  sendMessage(obj);
 }

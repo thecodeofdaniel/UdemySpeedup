@@ -58,9 +58,12 @@ async function watchProgressBar() {
         const currentValue = progressBarElem.getAttribute('aria-valuenow');
         if (currentValue === '100') {
           observer.disconnect();
-          if (LSget(SKIP_DELAY_KEY) === true) {
-            nextButtonElem.click();
-          }
+
+          browser.storage.local.get(SKIP_DELAY_KEY, (result) => {
+            if (result[SKIP_DELAY_KEY]) {
+              nextButtonElem.click();
+            }
+          });
         }
       }
     }

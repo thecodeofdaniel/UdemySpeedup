@@ -23,19 +23,15 @@ const UDEMY_VIDEO_URL_PATTERN =
  * @return {void}
  */
 function LSset(key, value) {
-  const jsonStr = JSON.stringify(value);
-  localStorage.setItem(key, jsonStr);
-}
+  // const jsonStr = JSON.stringify(value);
+  // localStorage.setItem(key, jsonStr);
 
-/**
- * Retrieves a value in local storage. Using JSON.parse(). This saves the value
- * type, making it predictable.
- * @param {string} key
- * @returns {any}
- */
-function LSget(key) {
-  const jsonVal = JSON.parse(localStorage.getItem(key));
-  return jsonVal;
+  const data = {};
+  data[key] = value;
+
+  browser.storage.local.set(data, () => {
+    console.log('Value saved', data);
+  });
 }
 
 /**

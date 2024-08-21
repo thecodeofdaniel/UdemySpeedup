@@ -13,8 +13,7 @@ document.addEventListener('keydown', (event) => {
   }
 
   // Get video speed from local storage otherwise use the current one on Udemy
-  let videoSpeed =
-    LSget(VIDEO_SPEED_KEY) || toNumber(playBackTextElem.textContent);
+  let videoSpeed = toNumber(playBackTextElem.textContent);
 
   // If null then return
   if (!videoSpeed) return;
@@ -37,9 +36,4 @@ document.addEventListener('keydown', (event) => {
   videoElem.playbackRate = videoSpeed;
   playBackTextElem.textContent = `${videoSpeed}x`;
   LSset(VIDEO_SPEED_KEY, videoSpeed);
-
-  // Send speed to popup/background
-  browser.runtime.sendMessage({
-    speed: videoSpeed,
-  });
 });
