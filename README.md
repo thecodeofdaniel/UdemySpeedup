@@ -2,22 +2,25 @@
 
 ![UdemySpeedup Extension](./imgs/extension.png)
 
-Get the add-on [here!](https://addons.mozilla.org/en-US/firefox/addon/udemy-speedup/)
+Get the add-on
+[here!](https://addons.mozilla.org/en-US/firefox/addon/udemy-speedup/)
 
-This extension adds playback rates to Udemy videos. Ranging from 0.5x to 4x speed.
-The user can either use the range input or the text input for finer control if they so choose. They can also use the `[` and `]` keys to quickly change playback by 0.25 speed.
-
-**NOTE**: It may not apply at times, if that happens just refresh the page.
+This extension adds playback rates to Udemy videos. Ranging from 0.5x to 4x
+speed. Use the `[` and `]` keys to quickly change playback by 0.25 speed. Add
+ability to skip the "Up Next" screen.
 
 ## Steps to build/edit extension
 
-Install NodeJS (LTS) version 20. However if you use nvm, you can use the `.nvmrc` file to get my exact node version. Run the following command within the project
+Install NodeJS (LTS) version 20. However if you use nvm or some other version
+manager, you can use the `.nvmrc` or `.node-version` file to get my exact node
+version. Run the following command if you use nvm.
 
 ```bash
 nvm install
 ```
 
-I used `web-ext` for my development environment. You can find how to install it [here](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext/). However if you're already using node/npm then run.
+I used `web-ext` for my development environment. You can find how to install it
+[here](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext/). However if you're already using node/npm then run.
 
 ```bash
 npm install --global web-ext
@@ -31,7 +34,9 @@ web-ext run
 
 ### Styling
 
-I'm using tailwindcss to style my extension, so we'll need to generate the css. This will take the `input.css` and generates the `output.css`. Run the following command in the root project to generate the css once.
+I'm using tailwindcss to style my extension, so we'll need to generate the css.
+This will take the `input.css` and generates the `output.css`. Run the following
+command in the root project to generate the css once.
 
 ```bash
 npm run tailwind:build
@@ -53,10 +58,12 @@ tree src
 
 You'll get the structure of the project. Let's run it down.
 
-- The `background` dir has a **background.js**. It has 3 responsibilities.
-  - To control whether the extension is enabled or not based on the URL.
-  - Listens when the user enters a shortcut. Telling the popup.js to correctly reflect the new playback speed.
-  - Update the playback text on screen when the user clicks onto a new Udemy tab.
-    - It does this by running the content script **5_update_playback_text.js**.
-- The `content_scripts` dir has files to find elements in the DOM. It applys the playback speed and updates the playback text. While also watching the progress bar to determine if a video has finished and if so, skip the "Up next" screen. Each file has a comment at the top explaining its purpose :)
-- The `popup` dir has files to control the look and behaviour of the extension. Sending and receiving messages from content_scripts. The file **2_popup_listener.js** is where the messages are sent.
+- The `background` dir has a file to control whether the extension is enabled
+  based on the URL. As well as run a content script
+  (**5_update_playback_text.js**) to update the playback text on screen when the
+  user clicks onto a new tab.
+- The `content_scripts` dir has files to find, watch, and use elements in the
+  DOM. Each file has a comment at the top explaining its purpose :)
+- The `popup` dir has files to control the look and behaviour of the extension.
+  Sending messages to content scripts (**2_popup_listener.js**) when the
+  playback speed changes.
