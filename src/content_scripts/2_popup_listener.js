@@ -1,6 +1,6 @@
-// What's this do?: This listens to messages from the popup. A message is sent
-//                  when the user opens the extension. And when the user makes
-//                  any changes within the extension
+// What's this?: This listens to messages from the popup. In this case when the
+//               user changes the playback text from the popup. Updating the
+//               video speed and playback text.
 
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   // console.log(message);

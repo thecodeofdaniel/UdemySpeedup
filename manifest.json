@@ -23,7 +23,7 @@
         "src/content_scripts/0_selectors.js",
         "src/content_scripts/1_shared.js",
         "src/content_scripts/2_popup_listener.js",
-        "src/content_scripts/3_watchers.js",
+        "src/content_scripts/3_listen_watch.js",
         "src/content_scripts/4_start.js",
         "src/content_scripts/5_update_playback_text.js",
         "src/content_scripts/6_shortcuts.js"

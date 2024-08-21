@@ -1,7 +1,6 @@
-// What's this do?: This sets the min and max for the slider input. As well as
-//                  sending a message as soon as the extension is opened up.
-//                  If a value is already set on the client side. It will use
-//                  those values instead of the ones set here (extension side).
+// What's this?: This sets the min and max for the slider input. As well as get
+//               the values from local storage. If not found, then it will use
+//               the default values.
 
 // Set min and max for slider input
 speedRangeInputElem.min = MIN_SPEED;

@@ -1,5 +1,23 @@
-// What's this do?: These functions watch for any changes inside their elements.
-//                  Triggering some functions to run.
+// What's this?: These functions listen or watch for any changes inside their
+//               elements.
+
+/**
+ * Adds event listener for popup to change playback rate natively
+ */
+async function listenPlaybackPopup() {
+  playbackPopupElem = await waitForElement(
+    'playbackPopup',
+    PLAYBACK_POPUP_SELECTOR,
+  );
+
+  playbackPopupElem.addEventListener('click', (event) => {
+    const videoSpeed = toNumber(event.target.innerText);
+
+    videoElem.playbackRate = videoSpeed;
+    playBackTextElem.textContent = `${videoSpeed}x`;
+    LSset(VIDEO_SPEED_KEY, videoSpeed);
+  });
+}
 
 /**
  * Returns the lecture id on the current URL.
@@ -30,12 +48,19 @@ function watchURLChanges() {
     const newLectureId = getLectureId(location.href);
     if (newLectureId !== currentLectureId) {
       currentLectureId = newLectureId;
-      applyPlaybackToNewVid((firstRun = false));
+      applyPlaybackToNewVid(true);
     }
   });
 
   const config = { subtree: true, childList: true };
   observer.observe(document, config);
+}
+
+/**
+ * Finds the "next video" button element.
+ */
+async function findNextVidBtn() {
+  nextButtonElem = await waitForElement('nextButtonElem', NEXT_BUTTON_SELECTOR);
 }
 
 /**
@@ -71,22 +96,4 @@ async function watchProgressBar() {
 
   const observer = new MutationObserver(handleCompleteProgressBar);
   observer.observe(progressBarElem, { attributes: true });
-}
-
-/**
- * Adds event listener for popup to change playback rate natively
- */
-async function listenPlaybackPopup() {
-  playbackPopupElem = await waitForElement(
-    'playbackPopup',
-    PLAYBACK_POPUP_SELECTOR,
-  );
-
-  playbackPopupElem.addEventListener('click', (event) => {
-    const videoSpeed = toNumber(event.target.innerText);
-
-    videoElem.playbackRate = videoSpeed;
-    playBackTextElem.textContent = `${videoSpeed}x`;
-    LSset(VIDEO_SPEED_KEY, videoSpeed);
-  });
 }

@@ -1,5 +1,5 @@
-// What's this do?: When the page is first rendered or reloaded. This is where
-//                  we initially run our functions.
+// What's this?: When the page is first rendered or reloaded. This is where we
+//               initially run our functions.
 
 /**
  * Set's video playback speed.
@@ -20,12 +20,5 @@ async function setPlayback() {
   videoElem.addEventListener('play', apply);
 }
 
-/**
- * Finds the "next video" button element.
- */
-async function findNextVidBtn() {
-  nextButtonElem = await waitForElement('nextButtonElem', NEXT_BUTTON_SELECTOR);
-}
-
 watchURLChanges();
-applyPlaybackToNewVid((firstRun = true));
+applyPlaybackToNewVid(false);

@@ -16,29 +16,23 @@ const UDEMY_VIDEO_URL_PATTERN =
   /^https:\/\/www\.udemy\.com\/course\/[^\/]+\/learn\/lecture/;
 
 /**
- * Sets a key value in local storage. However it stores it as a JSON string.
- * This is to save the value type when retreiving the value.
+ * Sets a key value in local storage.
  * @param {string} key
  * @param {any} value
  * @return {void}
  */
 function LSset(key, value) {
-  // const jsonStr = JSON.stringify(value);
-  // localStorage.setItem(key, jsonStr);
-
   const data = {};
   data[key] = value;
 
   browser.storage.local.set(data, () => {
-    console.log('Value saved', data);
+    // console.log('Value saved', data);
   });
 }
 
 /**
  * Removes any whitespace and removes the trailing 'x'. If there is
  * one. Then converts the string to number.
- * If empty return null.
- * If not a number return NaN.
  * @param {string} str
  * @return {number|null}
  */

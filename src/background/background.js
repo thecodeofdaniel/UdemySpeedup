@@ -1,9 +1,9 @@
-// What's this do?: It controls whether the extension is enabled based on the
-//                  URL they're on. Should be enabled when they're on the Udemy
-//                  website.
-
-// NOTE: To view the console you need to visit about:debugging. Navigate to the
-//       extension and click on "Inspect".
+// What's this?: It controls whether the extension is enabled based on the URL
+//               they're on. Should be enabled when they're Udemy lecture. It
+//               also runs a content script when clicking on a different tab.
+//               Updating the playback text.
+// NOTE:         To view the console on the extension side. You need to visit
+//               about:debugging. Click "This Firefox" > "Inspect".
 
 // Declare path to content script
 const CONTENT_SCRIPT_PATH = '/src/content_scripts/5_update_playback_text.js';

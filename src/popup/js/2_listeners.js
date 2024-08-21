@@ -1,10 +1,6 @@
-// What's this do?: This grabs the elements by id and adds event listeners to
-//                  them. If the value is changed in any of these elements. It
-//                  is sent to popup listener in content_scripts.
-
-const speedRangeInputElem = document.getElementById('speedRangeInput');
-const speedTextInputElem = document.getElementById('speedTextInput');
-const checkboxElem = document.getElementById('skipUpNextCheckbox');
+// What's this?: Adds event listeners to elements. If playback is changed then
+//               it is sent to the popup listener. In this case, to content
+//               script number 2.
 
 // Listener for input text
 speedTextInputElem.addEventListener('keypress', async (event) => {
@@ -15,11 +11,15 @@ speedTextInputElem.addEventListener('keypress', async (event) => {
 
   // Grab the value (of type string) and remove any whitespace and trailing 'x'
   let value = toNumber(speedTextInputElem.value);
-  const localVideoSpeed = await LS_videoSpeed();
+
+  // Gets the previous video speed from local storage
+  const prevVideoSpeed = await browser.storage.local
+    .get(VIDEO_SPEED_KEY)
+    .then((result) => result[VIDEO_SPEED_KEY]);
 
   // If not a number DO NOT continue
   if (value === null) {
-    speedTextInputElem.value = `${localVideoSpeed}x`;
+    speedTextInputElem.value = `${prevVideoSpeed}x`;
     return;
   }
 
@@ -34,8 +34,8 @@ speedTextInputElem.addEventListener('keypress', async (event) => {
   }
 
   // If the new video speed is the same as old, then don't continue
-  if (value === localVideoSpeed) {
-    speedTextInputElem.value = `${localVideoSpeed}x`;
+  if (value === prevVideoSpeed) {
+    speedTextInputElem.value = `${prevVideoSpeed}x`;
     return;
   }
 

@@ -1,6 +1,6 @@
-// What's this do?: This updates the shown playback rate text whenever the
-//                  user switches tabs to a another Udemy video. In order to
-//                  reflect the correct playback speed.
+// What's this?: This updates the shown playback rate text whenever the user
+//               switches tabs to a another Udemy video. In order to reflect the
+//               correct playback speed.
 
 async function changePlaybackText() {
   if (!playBackTextElem) {

@@ -1,4 +1,4 @@
-// What's this do?: These are css selectors to select the elements needed.
+// What's this?: These are css selectors to select the elements needed.
 
 const VIDEO_SELECTOR = 'video';
 const PLAYBACK_TEXT_SELECTOR = 'span.ud-focus-visible-target';

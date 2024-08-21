@@ -1,5 +1,5 @@
-// What's this do?: These are the elements we'll use and common functions that
-//                  used through out the content scripts
+// What's this?: These are the elements we'll use and common functions that used
+//               through out the content scripts.
 
 /** @type {Element} */
 let videoElem = null;
@@ -50,13 +50,12 @@ function isOnVideoURL() {
 }
 
 /**
- * Applys all necessary functions in order to apply manipulate the DOM. Needs to
- * now if page is reloaded. If so, then it's on its first run.
+ * Applys all necessary functions in order to apply manipulate the DOM
  *
- * @param {boolean} firstRun
+ * @param {boolean} isNew
  */
-function applyPlaybackToNewVid(firstRun) {
-  if (!firstRun) {
+function applyPlaybackToNewVid(isNew) {
+  if (isNew) {
     videoElem = null;
     playBackTextElem = null;
     progressBarElem = null;
@@ -66,7 +65,7 @@ function applyPlaybackToNewVid(firstRun) {
 
   if (isOnVideoURL()) {
     setPlayback();
-    !firstRun && changePlaybackText();
+    isNew && changePlaybackText();
     findNextVidBtn();
     watchProgressBar();
     listenPlaybackPopup();

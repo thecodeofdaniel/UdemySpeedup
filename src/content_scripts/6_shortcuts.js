@@ -1,5 +1,5 @@
-// What's this do?: This gives the user shortcuts to quickly change the playback
-//                  speed. Incrementing or decrementing by 0.25 speed.
+// What's this?: This gives the user shortcuts to quickly change the playback
+//               speed. Incrementing or decrementing by 0.25 speed.
 
 document.addEventListener('keydown', (event) => {
   // Only allow [ and ] to be allowed through
