@@ -1,6 +1,4 @@
-// What's this?: This sets the min and max for the slider input. As well as get
-//               the values from local storage. If not found, then it will use
-//               the default values.
+// What's this?: Sets all elements' values when opening the popup.
 
 // Set min and max for slider input
 speedRangeInputElem.min = MIN_SPEED;
