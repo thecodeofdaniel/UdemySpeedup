@@ -5,9 +5,9 @@
 Get the add-on
 [here!](https://addons.mozilla.org/en-US/firefox/addon/udemy-speedup/)
 
-This extension adds playback rates to Udemy videos. Ranging from 0.5x to 4x
-speed. Use the `[` and `]` keys to quickly change playback by 0.25 speed. Add
-ability to skip the "Up Next" screen.
+Add more playback rates to Udemy videos, ranging from 0.5x to 4x speed. Use the
+`[` and `]` keys to quickly change playback by 0.25 speed. Skip the "Up next"
+screen if you so choose!
 
 ## Steps to build/edit extension
 
@@ -20,7 +20,8 @@ nvm install
 ```
 
 I used `web-ext` for my development environment. You can find how to install it
-[here](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext/). However if you're already using node/npm then run.
+[here](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext/).
+However if you're already using node/npm then run.
 
 ```bash
 npm install --global web-ext
