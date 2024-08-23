@@ -50,11 +50,32 @@ function isOnVideoURL() {
 }
 
 /**
+ * Gets the videoSpeed in local storage otherwise the default is used.
+ * @returns {Promise<number>}
+ */
+async function getVideoSpeed() {
+  // Find the speed in local storage first
+  const videoSpeed = await browser.storage.local
+    .get(VIDEO_SPEED_KEY)
+    .then((result) => result[VIDEO_SPEED_KEY]);
+
+  if (videoSpeed) {
+    return videoSpeed;
+  }
+
+  // Otherwise use the default speed
+  LSset(VIDEO_SPEED_KEY, DEFAULT_SPEED);
+  return DEFAULT_SPEED;
+}
+
+/**
  * Applys all necessary functions in order to apply manipulate the DOM
  *
  * @param {boolean} isNew
  */
-function applyPlaybackToNewVid(isNew) {
+async function applyPlaybackToNewVid(isNew) {
+  await getVideoSpeed();
+
   if (isNew) {
     videoElem = null;
     playBackTextElem = null;

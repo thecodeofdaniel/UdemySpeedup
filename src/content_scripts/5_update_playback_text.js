@@ -10,9 +10,11 @@ async function changePlaybackText() {
     );
   }
 
-  browser.storage.local.get(VIDEO_SPEED_KEY, (result) => {
-    playBackTextElem.textContent = `${result[VIDEO_SPEED_KEY]}x`;
-  });
+  const videoSpeed = await getVideoSpeed();
+
+  if (videoSpeed) {
+    playBackTextElem.textContent = `${videoSpeed}x`;
+  }
 }
 
 if (isOnVideoURL()) {

@@ -7,10 +7,9 @@
 async function setPlayback() {
   videoElem = await waitForElement('videoElem', VIDEO_SELECTOR);
 
-  const apply = () => {
-    browser.storage.local.get(VIDEO_SPEED_KEY, (result) => {
-      videoElem.playbackRate = result[VIDEO_SPEED_KEY];
-    });
+  const apply = async () => {
+    const videoSpeed = await getVideoSpeed();
+    videoElem.playbackRate = videoSpeed;
   };
 
   // Set the initial playback rate
@@ -19,6 +18,9 @@ async function setPlayback() {
   // Add event listeners to ensure playback rate persists
   videoElem.addEventListener('play', apply);
 }
+
+// For testing purposes :)
+// browser.storage.local.clear();
 
 watchURLChanges();
 applyPlaybackToNewVid(false);
