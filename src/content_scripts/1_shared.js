@@ -69,14 +69,40 @@ async function getVideoSpeed() {
 }
 
 /**
+ * Handles when user uses the playback selector from Udemy
+ * @param {MouseEvent} event
+ * @returns {void}
+ */
+function handlePlaybackPopupClick(event) {
+  const videoSpeed = toNumber(event.target.innerText);
+
+  if (!videoSpeed) return;
+
+  videoElem.playbackRate = videoSpeed;
+  playBackTextElem.textContent = `${videoSpeed}x`;
+  LSset(VIDEO_SPEED_KEY, videoSpeed);
+}
+
+/**
+ * Applys the video playback using value from local storage
+ */
+async function applyPlayback() {
+  const videoSpeed = await getVideoSpeed();
+  videoElem.playbackRate = videoSpeed;
+}
+
+/**
  * Applys all necessary functions in order to apply manipulate the DOM
  *
  * @param {boolean} isNew
  */
 async function applyPlaybackToNewVid(isNew) {
-  await getVideoSpeed();
-
   if (isNew) {
+    if (videoElem && playbackPopupElem) {
+      videoElem.removeEventListener('play', applyPlayback);
+      playbackPopupElem.removeEventListener('play', handlePlaybackPopupClick);
+    }
+
     videoElem = null;
     playBackTextElem = null;
     progressBarElem = null;

@@ -10,13 +10,7 @@ async function listenPlaybackPopup() {
     PLAYBACK_POPUP_SELECTOR,
   );
 
-  playbackPopupElem.addEventListener('click', (event) => {
-    const videoSpeed = toNumber(event.target.innerText);
-
-    videoElem.playbackRate = videoSpeed;
-    playBackTextElem.textContent = `${videoSpeed}x`;
-    LSset(VIDEO_SPEED_KEY, videoSpeed);
-  });
+  playbackPopupElem.addEventListener('click', handlePlaybackPopupClick);
 }
 
 /**

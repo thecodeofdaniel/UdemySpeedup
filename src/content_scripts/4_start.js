@@ -7,16 +7,11 @@
 async function setPlayback() {
   videoElem = await waitForElement('videoElem', VIDEO_SELECTOR);
 
-  const apply = async () => {
-    const videoSpeed = await getVideoSpeed();
-    videoElem.playbackRate = videoSpeed;
-  };
-
   // Set the initial playback rate
-  apply();
+  applyPlayback();
 
   // Add event listeners to ensure playback rate persists
-  videoElem.addEventListener('play', apply);
+  videoElem.addEventListener('play', applyPlayback);
 }
 
 // For testing purposes :)
