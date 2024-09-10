@@ -7,8 +7,15 @@ speedRangeInputElem.max = MAX_SPEED;
 // Set videoSpeed value to slider and text input
 browser.storage.local.get(VIDEO_SPEED_KEY, (result) => {
   const value = result[VIDEO_SPEED_KEY];
-  speedRangeInputElem.value = value;
-  speedTextInputElem.value = `${value}x`;
+
+  if (value !== undefined) {
+    speedRangeInputElem.value = value;
+    speedTextInputElem.value = `${value}x`;
+  } else {
+    LSset(VIDEO_SPEED_KEY, DEFAULT_SPEED);
+    speedRangeInputElem.value = DEFAULT_SPEED;
+    speedTextInputElem.value = `${DEFAULT_SPEED}x`;
+  }
 });
 
 // Set skipUpNext value to checkbox
