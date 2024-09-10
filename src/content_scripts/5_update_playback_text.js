@@ -11,10 +11,7 @@ async function changePlaybackText() {
   }
 
   const videoSpeed = await getVideoSpeed();
-
-  if (videoSpeed) {
-    playBackTextElem.textContent = `${videoSpeed}x`;
-  }
+  playBackTextElem.textContent = `${videoSpeed}x`;
 }
 
 if (isOnVideoURL()) {
