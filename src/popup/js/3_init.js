@@ -15,7 +15,7 @@ browser.storage.local.get(VIDEO_SPEED_KEY, (result) => {
 browser.storage.local.get(SKIP_DELAY_KEY, (result) => {
   const value = result[SKIP_DELAY_KEY];
 
-  if (value) {
+  if (value !== undefined) {
     checkboxElem.checked = value;
   } else {
     LSset(SKIP_DELAY_KEY, DEFAULT_CHECKBOX_VALUE);
