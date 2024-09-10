@@ -8,7 +8,10 @@ async function listenPlaybackPopup() {
   playbackPopupElem = await waitForElement(
     'playbackPopup',
     PLAYBACK_POPUP_SELECTOR,
+    globalCurrentLectureId,
   );
+
+  if (!playbackPopupElem) return;
 
   playbackPopupElem.addEventListener('click', handlePlaybackPopupClick);
 }
@@ -42,6 +45,7 @@ function watchURLChanges() {
     const newLectureId = getLectureId(location.href);
     if (newLectureId !== currentLectureId) {
       currentLectureId = newLectureId;
+      globalCurrentLectureId = newLectureId;
       applyPlaybackToNewVid(true);
     }
   });
@@ -54,7 +58,13 @@ function watchURLChanges() {
  * Finds the "next video" button element.
  */
 async function findNextVidBtn() {
-  nextButtonElem = await waitForElement('nextButtonElem', NEXT_BUTTON_SELECTOR);
+  nextButtonElem = await waitForElement(
+    'nextButtonElem',
+    NEXT_BUTTON_SELECTOR,
+    globalCurrentLectureId,
+  );
+
+  if (!nextButtonElem) return;
 }
 
 /**
@@ -65,7 +75,10 @@ async function watchProgressBar() {
   progressBarElem = await waitForElement(
     'progressBarElem',
     PROGRESS_BAR_SELECTOR,
+    globalCurrentLectureId,
   );
+
+  if (!progressBarElem) return;
 
   // Create a callback function to execute when mutations are observed
   const handleCompleteProgressBar = (mutationsList, observer) => {

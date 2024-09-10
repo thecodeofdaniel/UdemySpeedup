@@ -7,7 +7,10 @@ async function changePlaybackText() {
     playBackTextElem = await waitForElement(
       'playbackTextElem',
       PLAYBACK_TEXT_SELECTOR,
+      globalCurrentLectureId,
     );
+
+    if (!playBackTextElem) return;
   }
 
   const videoSpeed = await getVideoSpeed();

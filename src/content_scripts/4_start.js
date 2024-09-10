@@ -5,7 +5,13 @@
  * Set's video playback speed.
  */
 async function setPlayback() {
-  videoElem = await waitForElement('videoElem', VIDEO_SELECTOR);
+  videoElem = await waitForElement(
+    'videoElem',
+    VIDEO_SELECTOR,
+    globalCurrentLectureId,
+  );
+
+  if (!videoElem) return;
 
   // Set the initial playback rate
   applyPlayback();

@@ -16,24 +16,33 @@ let nextButtonElem = null;
 /** @type {Element} */
 let playbackPopupElem = null;
 
+/** @type {number|undefined} */
+let globalCurrentLectureId = undefined;
+
 /**
  * Returns the element in the DOM once it has rendered
  *
  * @param {string} elemName - name of element variable (default is elem)
  * @param {string} selector
- * @param {number} checkEveryMs - default is 1000ms
+ * @param {number} elemId   - the element for that lecture id
  * @returns {Promise<Element>}
  */
-function waitForElement(elemName = 'elem', selector, checkEveryMs = 1000) {
+function waitForElement(elemName = 'elem', selector, elemId) {
   return new Promise((resolve) => {
     const checkElement = () => {
+      if (elemId !== globalCurrentLectureId) {
+        // console.log(`stop finding ${elemName} with ${elemId}`);
+        resolve(null);
+        return;
+      }
+
       const element = document.querySelector(selector);
       if (element) {
         // console.log(`${elemName} is found!`);
         resolve(element);
       } else {
         // console.log(`${elemName} is still waiting...`);
-        setTimeout(checkElement, checkEveryMs);
+        setTimeout(checkElement, 1000);
       }
     };
     checkElement();
