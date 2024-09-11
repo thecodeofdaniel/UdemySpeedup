@@ -19,6 +19,9 @@ let playbackPopupElem = null;
 /** @type {number|undefined} */
 let globalCurrentLectureId = undefined;
 
+/** @type {MutationObserver|null} */
+let progressBarObserver = null;
+
 /**
  * Returns the element in the DOM once it has rendered
  *

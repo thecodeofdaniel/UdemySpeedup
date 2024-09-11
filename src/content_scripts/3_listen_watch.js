@@ -80,7 +80,12 @@ async function watchProgressBar() {
 
   if (!progressBarElem) return;
 
-  // Create a callback function to execute when mutations are observed
+  // Disconnect previous observer if found
+  if (progressBarObserver) {
+    progressBarObserver.disconnect();
+    progressBarObserver = null;
+  }
+
   const handleCompleteProgressBar = (mutationsList, observer) => {
     for (let mutation of mutationsList) {
       if (
@@ -88,9 +93,9 @@ async function watchProgressBar() {
         mutation.attributeName === 'aria-valuenow'
       ) {
         const currentValue = progressBarElem.getAttribute('aria-valuenow');
-        if (currentValue === '100') {
-          observer.disconnect();
 
+        // Once video is done (either skip "Up Next" if user chose true)
+        if (currentValue === '100') {
           browser.storage.local.get(SKIP_DELAY_KEY, (result) => {
             if (result[SKIP_DELAY_KEY]) {
               nextButtonElem.click();
@@ -101,6 +106,6 @@ async function watchProgressBar() {
     }
   };
 
-  const observer = new MutationObserver(handleCompleteProgressBar);
-  observer.observe(progressBarElem, { attributes: true });
+  progressBarObserver = new MutationObserver(handleCompleteProgressBar);
+  progressBarObserver.observe(progressBarElem, { attributes: true });
 }
