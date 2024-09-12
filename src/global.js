@@ -1,5 +1,7 @@
 const VIDEO_SPEED_KEY = 'videoSpeed';
 const SKIP_DELAY_KEY = 'skipUpNext';
+const SKIP_INTRO_KEY = 'skipIntro';
+const SKIP_OUTRO_KEY = 'skipOutro';
 const DEFAULT_SPEED = 1;
 const DEFAULT_CHECKBOX_VALUE = true;
 const MIN_SPEED = 0.5;
@@ -57,4 +59,16 @@ function toNumber(str) {
  */
 function roundUp(value) {
   return parseFloat(value.toFixed(2));
+}
+
+function extractCourseName(url) {
+  const baseUrl = 'https://www.udemy.com/course/';
+
+  if (url.startsWith(baseUrl)) {
+    const coursePath = url.slice(baseUrl.length); // Remove the base URL
+    const courseName = coursePath.split('/')[0]; // Extract the first part (course name)
+    return courseName;
+  } else {
+    throw new Error('Invalid URL format');
+  }
 }

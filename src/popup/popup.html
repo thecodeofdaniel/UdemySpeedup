@@ -14,7 +14,7 @@
       <img src="../../icons/logo-64.png" alt="Logo" class="h-7" />
       <h1 class="text-xl font-bold">Udemy Speedup</h1>
     </header>
-    <main class="mt-2 flex gap-2">
+    <section class="mt-2 flex gap-2">
       <div>
         <input
           id="speedRangeInput"
@@ -28,14 +28,34 @@
         type="text"
         class="remove-arrow h-6 w-14 rounded-lg bg-stone-800 p-2 text-center placeholder:text-stone-400 focus:outline-none"
       />
-    </main>
-    <section class="mt-4 flex items-center">
+    </section>
+    <section class="mt-2 flex items-center">
       <input
         id="skipUpNextCheckbox"
         type="checkbox"
         class="rounded accent-[#A435F0] checked:border-transparent focus:outline-none"
       />
       <label class="ms-2 text-xs font-medium">Skip "Up Next" screen</label>
+    </section>
+    <section class="mt-4 space-y-2 text-xs">
+      <p>
+        Skip
+        <input
+          id="skipIntro"
+          type="text"
+          class="remove-arrow h-5 w-8 rounded-lg bg-stone-800 p-2 text-center placeholder:text-stone-400 focus:outline-none"
+        />
+        sec intro
+      </p>
+      <p>
+        Skip
+        <input
+          id="skipOutro"
+          type="text"
+          class="remove-arrow h-4 w-8 rounded-lg bg-stone-800 p-2 text-center placeholder:text-stone-400 focus:outline-none"
+        />
+        sec outro
+      </p>
     </section>
   </body>
 </html>

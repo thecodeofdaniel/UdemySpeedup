@@ -16,6 +16,12 @@ let nextButtonElem = null;
 /** @type {Element} */
 let playbackPopupElem = null;
 
+let currentTimeElem = null;
+
+let currentTimeObserver = null;
+
+let courseName = null;
+
 /** @type {number|undefined} */
 let globalCurrentLectureId = undefined;
 
@@ -126,7 +132,8 @@ async function applyPlaybackToNewVid(isNew) {
     setPlayback();
     isNew && changePlaybackText();
     findNextVidBtn();
-    watchProgressBar();
+    // watchProgressBar();
+    watchCurrentTime();
     listenPlaybackPopup();
   }
 }
