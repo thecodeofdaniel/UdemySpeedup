@@ -1,32 +1,14 @@
 // What's this?: These are the elements we'll use and common functions that used
 //               through out the content scripts.
 
-/** @type {Element} */
-let videoElem = null;
-
-/** @type {Element} */
-let playBackTextElem = null;
-
-/** @type {Element} */
-let progressBarElem = null;
-
-/** @type {Element} */
-let nextButtonElem = null;
-
-/** @type {Element} */
-let playbackPopupElem = null;
-
-let currentTimeElem = null;
-
-let currentTimeObserver = null;
-
-let courseName = null;
+/** @type {string|undefined} */
+let courseName;
 
 /** @type {number|undefined} */
-let globalCurrentLectureId = undefined;
+let globalCurrentLectureId;
 
-/** @type {MutationObserver|null} */
-let progressBarObserver = null;
+/** @type {MutationObserver|undefined} */
+let progressBarObserver;
 
 /**
  * Returns the element in the DOM once it has rendered
@@ -123,8 +105,8 @@ async function applyPlaybackToNewVid(isNew) {
 
     videoElem = null;
     playBackTextElem = null;
-    progressBarElem = null;
     nextButtonElem = null;
+    progressBarElem = null;
     playbackPopupElem = null;
   }
 
@@ -132,8 +114,7 @@ async function applyPlaybackToNewVid(isNew) {
     setPlayback();
     isNew && changePlaybackText();
     findNextVidBtn();
-    // watchProgressBar();
-    watchCurrentTime();
+    watchProgressBar();
     listenPlaybackPopup();
   }
 }

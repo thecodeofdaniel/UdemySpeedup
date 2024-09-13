@@ -68,67 +68,28 @@ async function findNextVidBtn() {
 }
 
 /**
- * Watches the progress bar and checks if video is 100% complete. If so,
- * simulate user clicking "next video" button
+ * Watches when the current time of video in UI changes.
  */
 async function watchProgressBar() {
   progressBarElem = await waitForElement(
-    'progressBarElem',
+    'currentTimeElem',
     PROGRESS_BAR_SELECTOR,
     globalCurrentLectureId,
   );
 
   if (!progressBarElem) return;
 
-  // Disconnect previous observer if found
   if (progressBarObserver) {
     progressBarObserver.disconnect();
     progressBarObserver = null;
   }
 
-  const handleCompleteProgressBar = (mutationsList, observer) => {
-    for (let mutation of mutationsList) {
-      if (
-        mutation.type === 'attributes' &&
-        mutation.attributeName === 'aria-valuenow'
-      ) {
-        const currentValue = progressBarElem.getAttribute('aria-valuenow');
-
-        // Once video is done (either skip "Up Next" if user chose true)
-        if (currentValue === '100') {
-          browser.storage.local.get(SKIP_DELAY_KEY, (result) => {
-            if (result[SKIP_DELAY_KEY]) {
-              nextButtonElem.click();
-            }
-          });
-        }
-      }
-    }
-  };
-
-  progressBarObserver = new MutationObserver(handleCompleteProgressBar);
-  progressBarObserver.observe(progressBarElem, { attributes: true });
-}
-
-async function watchCurrentTime() {
-  currentTimeElem = await waitForElement(
-    'currentTimeElem',
-    PROGRESS_BAR_SELECTOR,
-    globalCurrentLectureId,
-  );
-
-  if (!currentTimeElem) return;
-
-  if (currentTimeObserver) {
-    currentTimeObserver.disconnect();
-    currentTimeObserver = null;
-  }
-
   // Create a callback function to execute when mutations are observed
-  const handleTimeChange = (mutationsList, observer) => {
+  const handleChange = (mutationsList) => {
     if (!videoElem) return;
 
     for (const mutation of mutationsList) {
+      // console.log(mutation);
       // console.log(mutation.target.getAttribute('aria-valuenow'));
 
       // Get the skipOutro value for course
@@ -154,7 +115,6 @@ async function watchCurrentTime() {
               nextButtonElem.click();
             } else {
               if (videoElem.currentTime !== videoElem.duration) {
-                console.log('here');
                 videoElem.currentTime = videoElem.duration;
               }
             }
@@ -164,6 +124,6 @@ async function watchCurrentTime() {
     }
   };
 
-  currentTimeObserver = new MutationObserver(handleTimeChange);
-  currentTimeObserver.observe(currentTimeElem, { attributes: true });
+  progressBarObserver = new MutationObserver(handleChange);
+  progressBarObserver.observe(progressBarElem, { attributes: true });
 }
