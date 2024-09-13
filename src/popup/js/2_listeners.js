@@ -2,42 +2,6 @@
 //               it is sent to the popup listener. In this case, to content
 //               script number 2.
 
-function saveSkipValue(event, key) {
-  if (!(event.key === 'Enter')) {
-    return;
-  }
-
-  // Grab the value (of type string) and remove any whitespace and trailing 'x'
-  let seconds = toNumber(event.target.value);
-
-  // If not a number DO NOT continue
-  if (seconds === null || seconds < 0) {
-    return;
-  }
-
-  browser.storage.local.get(key, (result) => {
-    let value = result[key];
-    let obj = value !== undefined ? value : {};
-    obj[courseName] = seconds;
-    LSset(key, obj);
-  });
-}
-
-let courseName;
-browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
-  const activeTab = tabs[0];
-  const url = activeTab.url;
-  courseName = extractCourseName(url);
-});
-
-skipIntroElem.addEventListener('keypress', (event) =>
-  saveSkipValue(event, SKIP_INTRO_KEY),
-);
-
-skipOutroElem.addEventListener('keypress', (event) =>
-  saveSkipValue(event, SKIP_OUTRO_KEY),
-);
-
 // Listener for input text
 speedTextInputElem.addEventListener('keypress', async (event) => {
   // Continue thru the function once the user hits "Enter"
@@ -94,3 +58,21 @@ speedRangeInputElem.addEventListener('input', () => {
 checkboxElem.addEventListener('change', () => {
   LSset(SKIP_DELAY_KEY, checkboxElem.checked);
 });
+
+// Gets the course name from url
+let courseName;
+browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
+  const activeTab = tabs[0];
+  const url = activeTab.url;
+  courseName = extractCourseName(url);
+});
+
+// Sets and saves skip intro value
+skipIntroElem.addEventListener('keypress', (event) =>
+  saveSkipValue(event, SKIP_INTRO_KEY),
+);
+
+// Sets and saves skip outro value
+skipOutroElem.addEventListener('keypress', (event) =>
+  saveSkipValue(event, SKIP_OUTRO_KEY),
+);

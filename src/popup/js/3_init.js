@@ -30,42 +30,12 @@ browser.storage.local.get(SKIP_DELAY_KEY, (result) => {
   }
 });
 
+// Set skip intro value
 browser.storage.local.get(SKIP_INTRO_KEY, (result) => {
-  let value = result[SKIP_INTRO_KEY];
-
-  console.log(value);
-
-  if (value && value[courseName] !== undefined) {
-    skipIntroElem.value = value[courseName];
-  } else {
-    // value = {};
-    // value[courseName] = 0;
-    // skipIntroElem.value = 0;
-
-    // browser.storage.local.set(value, () => {});
-
-    let obj = value !== undefined ? value : {};
-    obj[courseName] = 0;
-    LSset(key, obj);
-  }
+  initSkipValue(result, skipIntroElem, SKIP_INTRO_KEY);
 });
 
+// Set skip outro value
 browser.storage.local.get(SKIP_OUTRO_KEY, (result) => {
-  let value = result[SKIP_OUTRO_KEY];
-
-  console.log(value);
-
-  if (value && value[courseName] !== undefined) {
-    skipOutroElem.value = value[courseName];
-  } else {
-    // value = {};
-    // value[courseName] = 0;
-    // skipOutroElem.value = 0;
-
-    // browser.storage.local.set(value, () => {});
-
-    let obj = value !== undefined ? value : {};
-    obj[courseName] = 0;
-    LSset(key, obj);
-  }
+  initSkipValue(result, skipOutroElem, SKIP_OUTRO_KEY);
 });
