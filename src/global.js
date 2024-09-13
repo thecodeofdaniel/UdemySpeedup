@@ -4,6 +4,7 @@ const SKIP_INTRO_KEY = 'skipIntro';
 const SKIP_OUTRO_KEY = 'skipOutro';
 const DEFAULT_SPEED = 1;
 const DEFAULT_CHECKBOX_VALUE = true;
+const DEFAULT_SKIP_INOUTRO = 0;
 const MIN_SPEED = 0.5;
 const MAX_SPEED = 4;
 
@@ -61,6 +62,11 @@ function roundUp(value) {
   return parseFloat(value.toFixed(2));
 }
 
+/**
+ * Gets the course name for that lecture
+ * @param {string} url
+ * @returns {string}
+ */
 function extractCourseName(url) {
   const baseUrl = 'https://www.udemy.com/course/';
 
