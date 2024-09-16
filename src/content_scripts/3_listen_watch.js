@@ -68,6 +68,19 @@ async function findNextVidBtn() {
 }
 
 /**
+ * Returns value from key
+ * @param {string} key
+ * @returns {Promise<any>}
+ */
+function LSget(key) {
+  return new Promise((resolve) => {
+    browser.storage.local.get(key, (result) => {
+      resolve(result[key]);
+    });
+  });
+}
+
+/**
  * Watches when the current time of video in UI changes.
  */
 async function watchProgressBar() {
@@ -79,51 +92,56 @@ async function watchProgressBar() {
 
   if (!progressBarElem) return;
 
+  // Create a callback function to execute when mutations are observed
+  const handleChange = async (mutationsList) => {
+    // If elem doesn't exist or video is finished
+    if (!videoElem) return;
+
+    const skipOutroObj = await LSget(SKIP_OUTRO_KEY);
+    const skipOutroSeconds = skipOutroObj?.[courseName] ?? 0;
+
+    for (const mutation of mutationsList) {
+      const progress = mutation.target.getAttribute('aria-valuenow');
+      // console.log(progress);
+
+      if (
+        skipOutroSeconds <= 1 &&
+        mutation.attributeName === 'aria-valuenow' &&
+        progress === '100'
+      ) {
+        const skipDelay = await LSget(SKIP_DELAY_KEY);
+        if (skipDelay) nextButtonElem.click();
+      } else if (
+        skipOutroSeconds > 1 &&
+        mutation.attributeName === 'aria-valuetext' &&
+        progress !== '100' &&
+        videoElem.currentTime !== videoElem.duration
+      ) {
+        const newDuration = videoElem.duration - skipOutroSeconds;
+        // console.log(`${videoElem.currentTime} >= ${newDuration}`);
+
+        if (videoElem.currentTime >= newDuration) {
+          const skipDelay = await LSget(SKIP_DELAY_KEY);
+          if (skipDelay) {
+            nextButtonElem.click();
+          } else {
+            // console.log('here');
+            videoElem.currentTime = videoElem.duration;
+            mutation.target.setAttribute('aria-valuenow', '100');
+          }
+        }
+      }
+    }
+  };
+
   if (progressBarObserver) {
     progressBarObserver.disconnect();
     progressBarObserver = null;
   }
 
-  // Create a callback function to execute when mutations are observed
-  const handleChange = (mutationsList) => {
-    if (!videoElem) return;
-
-    for (const mutation of mutationsList) {
-      // console.log(mutation);
-      // console.log(mutation.target.getAttribute('aria-valuenow'));
-
-      // Get the skipOutro value for course
-      browser.storage.local.get(SKIP_OUTRO_KEY, (result) => {
-        let skipOutroSeconds = result[SKIP_OUTRO_KEY];
-
-        // If skipOutro is not defined or not defined for the course, return
-        if (
-          skipOutroSeconds === undefined ||
-          skipOutroSeconds[courseName] === undefined
-        )
-          return;
-
-        // Skip outro or skip to next video when it's over if user chose so
-        if (
-          videoElem.currentTime >=
-            videoElem.duration - skipOutroSeconds[courseName] ||
-          mutation.target.getAttribute('aria-valuenow') === '100'
-        ) {
-          // Either skip to next video or skip to "Up Next" screen
-          browser.storage.local.get(SKIP_DELAY_KEY, (result) => {
-            if (result[SKIP_DELAY_KEY]) {
-              nextButtonElem.click();
-            } else {
-              if (videoElem.currentTime !== videoElem.duration) {
-                videoElem.currentTime = videoElem.duration;
-              }
-            }
-          });
-        }
-      });
-    }
-  };
-
   progressBarObserver = new MutationObserver(handleChange);
-  progressBarObserver.observe(progressBarElem, { attributes: true });
+  progressBarObserver.observe(progressBarElem, {
+    attributes: true,
+    attributeFilter: ['aria-valuetext', 'aria-valuenow'],
+  });
 }
