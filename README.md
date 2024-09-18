@@ -7,7 +7,7 @@ Get the add-on
 
 Add more playback rates to Udemy videos, ranging from 0.5x to 4x speed. Use the
 `[` and `]` keys to quickly change playback by 0.25 speed. Skip the "Up next"
-screen if you so choose!
+screen and skip long intros or outros if you so choose!
 
 ## Steps to build/edit extension
 
