@@ -25,12 +25,14 @@ speedTextInputElem.addEventListener('keypress', async (event) => {
 
   // Round up value to two decimal places
   value = roundUp(value);
+  const maxSpeed = await LSget(MAX_SPEED_KEY);
+  const minSpeed = await LSget(MIN_SPEED_KEY);
 
   // Check if speed is out of bounds
-  if (value < MIN_SPEED) {
-    value = MIN_SPEED;
-  } else if (value > MAX_SPEED) {
-    value = MAX_SPEED;
+  if (value < minSpeed) {
+    value = minSpeed;
+  } else if (value > maxSpeed) {
+    value = maxSpeed;
   }
 
   // If the new video speed is the same as old, then don't continue
@@ -78,7 +80,7 @@ skipOutroElem.addEventListener('keypress', (event) =>
 );
 
 // Open settings page
-document.getElementById('openSettings').addEventListener('click', (e) => {
+settingsBtnElem.addEventListener('click', (e) => {
   e.preventDefault();
   browser.runtime.openOptionsPage();
   window.close();
