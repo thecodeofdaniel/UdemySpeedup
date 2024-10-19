@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Load current settings to inputs
   browser.storage.local.get([MIN_SPEED_KEY, MAX_SPEED_KEY]).then((result) => {
-    minSpeedInputElem.value = result[MIN_SPEED_KEY] || 0.5;
-    maxSpeedInputElem.value = result[MAX_SPEED_KEY] || 4;
+    minSpeedInputElem.value = result[MIN_SPEED_KEY];
+    maxSpeedInputElem.value = result[MAX_SPEED_KEY];
   });
 
   // Save settings if valid

@@ -7,17 +7,20 @@ const MAX_SPEED_KEY = 'maxSpeed';
 const DEFAULT_SPEED = 1;
 const DEFAULT_CHECKBOX_VALUE = true;
 const DEFAULT_SKIP_INOUTRO = 0;
-// const MIN_SPEED = 0.5;
-// const MAX_SPEED = 4;
+const DEFAULT_MIN_SPEED = 0.5;
+const DEFAULT_MAX_SPEED = 4;
 
-let MIN_SPEED = 0.5
-let MAX_SPEED = 4;
+// let MIN_SPEED = 0.5;
+// let MAX_SPEED = 4;
 
-async function initializeSpeedSettings() {
-  const result = await browser.storage.local.get([MIN_SPEED_KEY, MAX_SPEED_KEY]);
-  MIN_SPEED = result[MIN_SPEED_KEY] || MIN_SPEED;
-  MAX_SPEED = result[MAX_SPEED_KEY] || MAX_SPEED;
-}
+// async function initializeSpeedSettings() {
+//   const result = await browser.storage.local.get([
+//     MIN_SPEED_KEY,
+//     MAX_SPEED_KEY,
+//   ]);
+//   MIN_SPEED = result[MIN_SPEED_KEY] || MIN_SPEED;
+//   MAX_SPEED = result[MAX_SPEED_KEY] || MAX_SPEED;
+// }
 
 // initializeSpeedSettings();
 
@@ -30,6 +33,19 @@ async function initializeSpeedSettings() {
  */
 const UDEMY_VIDEO_URL_PATTERN =
   /^https:\/\/www\.udemy\.com\/course\/[^\/]+\/learn\/lecture/;
+
+/**
+ * Returns value from key
+ * @param {string} key
+ * @returns {Promise<any>}
+ */
+function LSget(key) {
+  return new Promise((resolve) => {
+    browser.storage.local.get(key, (result) => {
+      resolve(result[key]);
+    });
+  });
+}
 
 /**
  * Sets a key value in local storage.

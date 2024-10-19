@@ -67,18 +67,18 @@ async function findNextVidBtn() {
   if (!nextButtonElem) return;
 }
 
-/**
- * Returns value from key
- * @param {string} key
- * @returns {Promise<any>}
- */
-function LSget(key) {
-  return new Promise((resolve) => {
-    browser.storage.local.get(key, (result) => {
-      resolve(result[key]);
-    });
-  });
-}
+// /**
+//  * Returns value from key
+//  * @param {string} key
+//  * @returns {Promise<any>}
+//  */
+// function LSget(key) {
+//   return new Promise((resolve) => {
+//     browser.storage.local.get(key, (result) => {
+//       resolve(result[key]);
+//     });
+//   });
+// }
 
 /**
  * Watches when the current time of video in UI changes.

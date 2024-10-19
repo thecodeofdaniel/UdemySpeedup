@@ -1,19 +1,31 @@
 // What's this?: Sets all elements' values when opening the popup.
 
 async function initializePopup() {
-  await initializeSpeedSettings();
+  // Get min and max speed from local storage
+  let minSpeed = await LSget(MIN_SPEED_KEY);
+  let maxSpeed = await LSget(MAX_SPEED_KEY);
+
+  // If not in local storage, set default values
+  if (!minSpeed) {
+    LSset(MIN_SPEED_KEY, 0.5);
+    minSpeed = 0.5;
+  }
+
+  if (!maxSpeed) {
+    LSset(MAX_SPEED_KEY, 4);
+    minSpeed = 4;
+  }
 
   // Set min and max for slider input
-  speedRangeInputElem.min = MIN_SPEED;
-  speedRangeInputElem.max = MAX_SPEED;
+  speedRangeInputElem.min = minSpeed;
+  speedRangeInputElem.max = maxSpeed;
 
   // Set videoSpeed value to slider and text input
-  const result = await browser.storage.local.get(VIDEO_SPEED_KEY);
-  const value = result[VIDEO_SPEED_KEY];
+  const speed = await LSget(VIDEO_SPEED_KEY);
 
-  if (value !== undefined) {
-    speedRangeInputElem.value = value;
-    speedTextInputElem.value = `${value}x`;
+  if (speed !== undefined) {
+    speedRangeInputElem.value = speed;
+    speedTextInputElem.value = `${speed}x`;
   } else {
     LSset(VIDEO_SPEED_KEY, DEFAULT_SPEED);
     speedRangeInputElem.value = DEFAULT_SPEED;
@@ -21,8 +33,7 @@ async function initializePopup() {
   }
 
   // Set skipUpNext value to checkbox
-  const result2 = await browser.storage.local.get(SKIP_DELAY_KEY);
-  const value2 = result2[SKIP_DELAY_KEY];
+  const value2 = await LSget(SKIP_DELAY_KEY);
 
   if (value2 !== undefined) {
     checkboxElem.checked = value2;
