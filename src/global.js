@@ -2,11 +2,24 @@ const VIDEO_SPEED_KEY = 'videoSpeed';
 const SKIP_DELAY_KEY = 'skipUpNext';
 const SKIP_INTRO_KEY = 'skipIntro';
 const SKIP_OUTRO_KEY = 'skipOutro';
+const MIN_SPEED_KEY = 'minSpeed';
+const MAX_SPEED_KEY = 'maxSpeed';
 const DEFAULT_SPEED = 1;
 const DEFAULT_CHECKBOX_VALUE = true;
 const DEFAULT_SKIP_INOUTRO = 0;
-const MIN_SPEED = 0.5;
-const MAX_SPEED = 4;
+// const MIN_SPEED = 0.5;
+// const MAX_SPEED = 4;
+
+let MIN_SPEED = 0.5
+let MAX_SPEED = 4;
+
+async function initializeSpeedSettings() {
+  const result = await browser.storage.local.get([MIN_SPEED_KEY, MAX_SPEED_KEY]);
+  MIN_SPEED = result[MIN_SPEED_KEY] || MIN_SPEED;
+  MAX_SPEED = result[MAX_SPEED_KEY] || MAX_SPEED;
+}
+
+// initializeSpeedSettings();
 
 /** This will activate the extension if it matches the following
  * https://www.udemy.com/course/foo/learn/lecture/bar

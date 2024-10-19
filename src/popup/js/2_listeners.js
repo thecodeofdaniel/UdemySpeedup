@@ -76,3 +76,9 @@ skipIntroElem.addEventListener('keypress', (event) =>
 skipOutroElem.addEventListener('keypress', (event) =>
   saveSkipValue(event, SKIP_OUTRO_KEY),
 );
+
+// Open settings page
+document.getElementById('openSettings').addEventListener('click', (e) => {
+  e.preventDefault();
+  browser.runtime.openOptionsPage();
+});
