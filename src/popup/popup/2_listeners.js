@@ -81,4 +81,5 @@ skipOutroElem.addEventListener('keypress', (event) =>
 document.getElementById('openSettings').addEventListener('click', (e) => {
   e.preventDefault();
   browser.runtime.openOptionsPage();
+  window.close();
 });
