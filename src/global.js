@@ -15,8 +15,6 @@ const DEFAULT_SKIP_INOUTRO = 0;
 const DEFAULT_MIN_SPEED = 0.5;
 const DEFAULT_MAX_SPEED = 4;
 const DEFAULT_STEP = 0.25;
-const DEFAULT_SLIDER_STEP = 0.25;
-const DEFAULT_SHORTCUT_STEP = 0.25;
 
 /** This will activate the extension if it matches the following
  * https://www.udemy.com/course/foo/learn/lecture/bar

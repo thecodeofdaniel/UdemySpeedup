@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', async () => {
+async function initializeSettings() {
   const minSpeedInputElem = document.getElementById('minSpeed');
   const maxSpeedInputElem = document.getElementById('maxSpeed');
   const sliderStepInputElem = document.getElementById('sliderStep');
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Save settings if valid
   saveButtonElem.addEventListener('click', () => {
-    const minSpeed = parseFloat(minSpeedInputElem.value);
+    const minSpeed = parseFloat(minSpeedInputElem.value); // stops until a NaN is found
     const maxSpeed = parseFloat(maxSpeedInputElem.value);
     const sliderStep = parseFloat(sliderStepInputElem.value);
     const shortcutStep = parseFloat(shortcutStepInputElem.value);
@@ -33,4 +33,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       alert('Settings saved successfully!');
     }
   });
-});
+}
+
+initializeSettings();
