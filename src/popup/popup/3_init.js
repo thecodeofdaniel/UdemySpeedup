@@ -1,24 +1,33 @@
 // What's this?: Sets all elements' values when opening the popup.
 
 async function initializePopup() {
+  // await browser.storage.local.clear();
+
   // Get min and max speed from local storage
   let minSpeed = await LSget(MIN_SPEED_KEY);
   let maxSpeed = await LSget(MAX_SPEED_KEY);
+  let sliderStep = await LSget(SLIDER_STEP_KEY);
 
   // If not in local storage, set default values
-  if (!minSpeed) {
+  if (minSpeed === undefined) {
     LSset(MIN_SPEED_KEY, 0.5);
     minSpeed = 0.5;
   }
 
-  if (!maxSpeed) {
+  if (maxSpeed === undefined) {
     LSset(MAX_SPEED_KEY, 4);
-    minSpeed = 4;
+    maxSpeed = 4;
   }
 
-  // Set min and max for slider input
+  if (sliderStep === undefined) {
+    LSset(SLIDER_STEP_KEY, DEFAULT_STEP);
+    sliderStep = DEFAULT_STEP;
+  }
+
+  // Set min,max,step for range input
   speedRangeInputElem.min = minSpeed;
   speedRangeInputElem.max = maxSpeed;
+  speedRangeInputElem.step = sliderStep;
 
   // Set videoSpeed value to slider and text input
   const speed = await LSget(VIDEO_SPEED_KEY);
