@@ -1,6 +1,6 @@
 {
   "name": "udemy-speedup",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "scripts": {
     "tailwind:build": "npx tailwindcss -i ./src/popup/css/input.css -o ./src/popup/css/output.css",
     "tailwind:watch": "npx tailwindcss -i ./src/popup/css/input.css -o ./src/popup/css/output.css --watch"

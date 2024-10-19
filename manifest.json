@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Udemy Speedup",
-  "version": "1.4.0",
-  "description": "Change video playback speed in Udemy",
+  "version": "1.5.0",
+  "description": "Change video playback speed, skip Up Next screen, and skip intros and outros in Udemy",
   "icons": {
     "64": "icons/logo-64.png"
   },
