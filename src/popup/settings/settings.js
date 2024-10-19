@@ -14,10 +14,10 @@ async function initializeSettings() {
 
   // Save settings if valid
   saveButtonElem.addEventListener('click', () => {
-    const minSpeed = parseFloat(minSpeedInputElem.value); // stops until a NaN is found
-    const maxSpeed = parseFloat(maxSpeedInputElem.value);
-    const sliderStep = parseFloat(sliderStepInputElem.value);
-    const shortcutStep = parseFloat(shortcutStepInputElem.value);
+    let minSpeed = parseFloat(minSpeedInputElem.value); // stops until a NaN is found
+    let maxSpeed = parseFloat(maxSpeedInputElem.value);
+    let sliderStep = parseFloat(sliderStepInputElem.value);
+    let shortcutStep = parseFloat(shortcutStepInputElem.value);
 
     if (!minSpeed || !maxSpeed || !sliderStep || !shortcutStep) {
       alert('Values cannot be empty/zero or must be a number');
@@ -26,6 +26,16 @@ async function initializeSettings() {
         'Please ensure min speed is less than max speed and both are between 0.0625 and 16.',
       );
     } else if (minSpeed >= 0.0625 && maxSpeed <= 16 && minSpeed < maxSpeed) {
+      minSpeed = roundUp(minSpeed);
+      maxSpeed = roundUp(maxSpeed);
+      sliderStep = roundUp(sliderStep);
+      shortcutStep = roundUp(shortcutStep);
+
+      minSpeedInputElem.value = minSpeed;
+      maxSpeedInputElem.value = maxSpeed;
+      sliderStepInputElem.value = sliderStep;
+      shortcutStepInputElem.value = shortcutStep;
+
       LSset(MIN_SPEED_KEY, minSpeed);
       LSset(MAX_SPEED_KEY, maxSpeed);
       LSset(SLIDER_STEP_KEY, sliderStep);

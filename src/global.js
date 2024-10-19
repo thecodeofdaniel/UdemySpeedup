@@ -73,12 +73,12 @@ function toNumber(str) {
 }
 
 /**
- * Rounds up a float value to two decimal places
+ * Rounds up a float value to four decimal places
  * @param {number|string} value
  * @return {number}
  */
 function roundUp(value) {
-  return parseFloat(value.toFixed(2));
+  return parseFloat(value.toFixed(4));
 }
 
 /**
