@@ -1,3 +1,5 @@
+// What's this?: This initializes all the values for the inputs for settings.
+
 async function initializeSettings() {
   const minSpeedInputElem = document.getElementById('minSpeed');
   const maxSpeedInputElem = document.getElementById('maxSpeed');
