@@ -1,6 +1,6 @@
 {
   "name": "udemy-speedup",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "scripts": {
     "tailwind:build": "npx tailwindcss -i ./src/popup/css/input.css -o ./src/popup/css/output.css",
     "tailwind:watch": "npx tailwindcss -i ./src/popup/css/input.css -o ./src/popup/css/output.css --watch"
@@ -8,7 +8,7 @@
   "keywords": [],
   "author": "Daniel Rubio",
   "license": "ISC",
-  "description": "Change video playback speed in Udemy",
+  "description": "Adjust Udemy playback speed and skip \"Up Next\", intros, and outros",
   "devDependencies": {
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.5",
