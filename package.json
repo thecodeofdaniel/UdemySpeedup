@@ -1,17 +1,32 @@
 {
   "name": "udemy-speedup",
-  "version": "1.5.1",
+  "version": "1.0.0",
   "scripts": {
-    "tailwind:build": "npx tailwindcss -i ./src/popup/css/input.css -o ./src/popup/css/output.css",
-    "tailwind:watch": "npx tailwindcss -i ./src/popup/css/input.css -o ./src/popup/css/output.css --watch"
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development --watch",
+    "tailwind:watch": "tailwindcss -i ./src/_css/input.css -o ./src/_css/output.css --watch",
+    "tailwind:build": "tailwindcss -i ./src/_css/input.css -o ./src/_css/output.css --minify"
   },
   "keywords": [],
-  "author": "Daniel Rubio",
+  "author": "",
   "license": "ISC",
-  "description": "Adjust Udemy playback speed and skip \"Up Next\", intros, and outros",
+  "description": "",
   "devDependencies": {
-    "prettier": "^3.3.2",
-    "prettier-plugin-tailwindcss": "^0.6.5",
-    "tailwindcss": "^3.4.4"
+    "@types/firefox-webext-browser": "^120.0.4",
+    "@typescript-eslint/eslint-plugin": "^8.23.0",
+    "@typescript-eslint/parser": "^8.23.0",
+    "eslint": "^9.19.0",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "source-map-loader": "^5.0.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.7.3",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.0.3",
+    "tailwindcss": "^4.0.3"
   }
 }

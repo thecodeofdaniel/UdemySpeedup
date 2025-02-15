@@ -1,44 +1,35 @@
 {
   "manifest_version": 2,
   "name": "Udemy Speedup",
-  "version": "1.5.1",
+  "version": "2.0.0",
   "description": "Adjust Udemy playback speed and skip \"Up Next\", intros, and outros",
   "icons": {
-    "64": "icons/logo-64.png"
-  },
-  "browser_action": {
-    "default_popup": "src/popup/popup/popup.html",
-    "default_icon": {
-      "64": "icons/logo-64.png"
-    }
-  },
-  "options_ui": {
-    "page": "src/popup/settings/settings.html"
+    "64": "imgs/logo-64.png"
   },
   "background": {
-    "scripts": ["src/global.js", "src/background/background.js"]
+    "scripts": ["dist/background.bundle.js"]
   },
   "content_scripts": [
     {
       "matches": ["https://www.udemy.com/course/*/learn/*"],
-      "js": [
-        "src/global.js",
-        "src/content_scripts/0_selectors.js",
-        "src/content_scripts/1_shared.js",
-        "src/content_scripts/2_popup_listener.js",
-        "src/content_scripts/3_listen_watch.js",
-        "src/content_scripts/4_start.js",
-        "src/content_scripts/5_update_playback_text.js",
-        "src/content_scripts/6_shortcuts.js"
-      ],
+      "js": ["dist/content_scripts.bundle.js"],
       "run_at": "document_end"
     }
   ],
+  "browser_action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "64": "imgs/logo-64.png"
+    }
+  },
+  "options_ui": {
+    "page": "src/settings/settings.html"
+  },
   "permissions": [
-    "tabs",
+    "https://www.udemy.com/course/*/learn/*",
     "activeTab",
-    "storage",
     "management",
-    "https://www.udemy.com/course/*/learn/*"
+    "storage",
+    "tabs"
   ]
 }

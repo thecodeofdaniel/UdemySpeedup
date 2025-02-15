@@ -1,5 +1,11 @@
-# Ignore node_modules
+# node_modules
 node_modules
 
-# Ignore generated css from tailwind
-src/popup/css/output.css
+# Output css
+src/_css/output.css
+
+# Output js
+dist
+
+# Zip file
+*.zip
