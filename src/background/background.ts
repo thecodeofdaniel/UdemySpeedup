@@ -7,9 +7,6 @@
 
 import { UDEMY_VIDEO_URL_PATTERN } from '@/global';
 
-// Declare path to content script
-const CONTENT_SCRIPT_PATH = '/dist/update_playback_text.bundle.js';
-
 /** Checks if extension should be enabled or not and returns a boolean */
 async function checkAndToggleExtension(): Promise<boolean> {
   try {
@@ -36,16 +33,10 @@ async function checkAndToggleExtension(): Promise<boolean> {
 }
 
 async function handleTabActivation(tabId: number) {
-  try {
-    // const tab = await browser.tabs.get(tabId);
-    // if (tab.url && UDEMY_VIDEO_URL_PATTERN.test(tab.url)) {
-    //   await browser.tabs.executeScript(tabId, { file: CONTENT_SCRIPT_PATH });
-    // }
-
-    await browser.tabs.executeScript(tabId, { file: CONTENT_SCRIPT_PATH });
-  } catch (error) {
-    console.error(`Failed to handle tab activation: ${error}`);
-  }
+  // Simply send the message to the tab to update playback text
+  await browser.tabs.sendMessage(tabId, {
+    type: 'UPDATE_PLAYBACK_TEXT',
+  });
 }
 
 // Listen for tab URL changes and update extension state

@@ -2,15 +2,15 @@
 
 import { toNumber, roundUp } from '@/global';
 import {
-  LSget,
   SHORTCUT_STEP_KEY,
   DEFAULT_STEP,
   MIN_SPEED_KEY,
   DEFAULT_MIN_SPEED,
   MAX_SPEED_KEY,
   DEFAULT_MAX_SPEED,
-  LSset,
   VIDEO_SPEED_KEY,
+  LSget,
+  LSset,
 } from '@/storage';
 import { getElement } from './lib/elems';
 

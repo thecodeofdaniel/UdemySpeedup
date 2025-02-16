@@ -3,7 +3,6 @@ const path = require('path');
 module.exports = {
   entry: {
     background: '@/background/background.ts',
-    update_playback_text: '@/background/update_playback_text.ts',
     content_scripts: '#/main.ts',
     popup: '@/popup/popup.ts',
     settings: '@/settings/settings.ts',
