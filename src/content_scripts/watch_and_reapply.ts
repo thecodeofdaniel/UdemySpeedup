@@ -36,11 +36,13 @@ export async function applyPlaybackToNewVid(isNewVideo: boolean) {
     const videoElem = getElement('videoElem');
     const playbackPopup = getElement('playbackPopupElem');
 
+    // Removes any listeners from previous video
     if (videoElem && playbackPopup) {
       videoElem.removeEventListener('play', applyPlayback);
       playbackPopup.removeEventListener('click', handlePlaybackPopupClick);
     }
 
+    // Resets all captured elements/variables
     setElement('videoElem', null);
     setElement('playbackTextElem', null);
     setElement('nextButtonElem', null);
