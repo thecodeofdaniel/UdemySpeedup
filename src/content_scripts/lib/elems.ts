@@ -9,12 +9,17 @@ export interface ElementMap {
 }
 
 const SELECTORS = {
-  videoElem: "video[class*='video-player--video-player']",
-  playbackTextElem: "span[class*='playback-rate--trigger-text']",
-  progressBarElem: '.progress-bar--slider--z064U',
+  videoElem: "[id^='lecture-']",
+  playbackTextElem: ".playback-rate-module--trigger-text--fEnJG",
+  progressBarElem: '.progress-bar-module--slider--MT-9c',
   nextButtonElem: '#go-to-next-item',
   playbackPopupElem: '.playback-rate--menu--4b1Qm',
 } as const;
+
+//video: #lecture
+// .playback-rate-module--trigger-text--fEnJG
+// scrubber: .progress-bar-module--slider--MT-9c
+// nextButton: #go-to-next-item
 
 const globalElements: Partial<ElementMap> = {
   videoElem: null,
