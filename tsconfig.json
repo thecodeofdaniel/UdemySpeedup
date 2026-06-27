@@ -12,6 +12,7 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["firefox-webext-browser"],
     "lib": ["DOM", "ES2020"],
     "baseUrl": ".",
     "paths": {
