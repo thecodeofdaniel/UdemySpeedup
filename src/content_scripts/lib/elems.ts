@@ -9,7 +9,7 @@ export interface ElementMap {
 }
 
 const SELECTORS = {
-  videoElem: "video[id^='lecture-']",
+  videoElem: "[id^='lecture-']",
   playbackTextElem: ".playback-rate-module--trigger-text--fEnJG",
   progressBarElem: '.progress-bar-module--slider--MT-9c',
   nextButtonElem: '#go-to-next-item',
