@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "outDir": "./dist",
@@ -14,9 +14,8 @@
     "typeRoots": ["./node_modules/@types", "./src/types"],
     "types": ["firefox-webext-browser"],
     "lib": ["DOM", "ES2020"],
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"],
