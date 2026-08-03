@@ -42,26 +42,38 @@ export function waitForElement<T extends HTMLElement>(
   const selector = getSelector(elemName);
 
   return new Promise((resolve) => {
-    const checkElement = () => {
-      const currentLectureId = getGlobalCurrentLectureId();
+    let observer: MutationObserver | null = null;
 
-      if (initLectureId !== currentLectureId) {
-        // console.log(`stop finding ${elemName} with ${initLectureId}`);
-        resolve(null);
-        return;
-      }
-
-      const element = document.querySelector(selector) as T;
-
-      if (element) {
-        // console.log(`${elemName} is found!`);
-        resolve(element);
-      } else {
-        // console.log(`${elemName} is still waiting...`);
-        setTimeout(checkElement, 1000);
-      }
+    const finish = (element: T | null) => {
+      observer?.disconnect();
+      resolve(element);
     };
 
-    checkElement();
+    // Returns true once settled (found or lecture changed underneath us)
+    const checkElement = (): boolean => {
+      if (initLectureId !== getGlobalCurrentLectureId()) {
+        finish(null);
+        return true;
+      }
+
+      const element = document.querySelector(selector) as T | null;
+
+      if (element) {
+        finish(element);
+        return true;
+      }
+
+      return false;
+    };
+
+    if (checkElement()) return;
+
+    // React to the element being inserted instead of polling on a timer,
+    // since Udemy swaps DOM nodes several times during a lecture transition
+    // and a fixed-interval poll can miss/outrun the real node.
+    observer = new MutationObserver(() => {
+      checkElement();
+    });
+    observer.observe(document.body, { subtree: true, childList: true });
   });
 }
