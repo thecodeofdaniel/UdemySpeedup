@@ -10,16 +10,14 @@ export interface ElementMap {
 
 const SELECTORS = {
   videoElem: "[id^='lecture-']",
-  playbackTextElem: ".playback-rate-module--trigger-text--fEnJG",
-  progressBarElem: '.progress-bar-module--slider--MT-9c',
+  // Udemy's CSS-module build regenerates the hash suffix (e.g. `--fEnJG`)
+  // on rebuilds even when nothing user-facing changes, so match on the
+  // stable, human-authored class prefix instead of the exact hashed class.
+  playbackTextElem: "[class*='playback-rate-module--trigger-text--']",
+  progressBarElem: "[class*='progress-bar-module--slider--']",
   nextButtonElem: '#go-to-next-item',
-  playbackPopupElem: '.playback-rate--menu--4b1Qm',
+  playbackPopupElem: "[class*='playback-rate--menu--']",
 } as const;
-
-//video: #lecture
-// .playback-rate-module--trigger-text--fEnJG
-// scrubber: .progress-bar-module--slider--MT-9c
-// nextButton: #go-to-next-item
 
 const globalElements: Partial<ElementMap> = {
   videoElem: null,
